@@ -24,6 +24,7 @@ class ShopFilterStore {
 
     removeBrand(value: string) {
         this.brand = this.brand.filter((b) => b.value != value)
+        this.isFilterActive = this.brand.length > 0
     }
 }
 
