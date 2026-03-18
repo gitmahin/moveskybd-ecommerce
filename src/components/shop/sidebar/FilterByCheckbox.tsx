@@ -7,6 +7,7 @@ import {
 } from "@/components/ui";
 import { ShopFilterMenuItem } from "../ShopFilterMenuItem";
 import { FilterCheckboxDataType } from "@/types/shop";
+import { LucideIcon } from "lucide-react";
 
 type FilterByCheckboxPropstype = {
   value: string;
@@ -14,6 +15,9 @@ type FilterByCheckboxPropstype = {
   data: FilterCheckboxDataType[];
   onFilterCheckedChange: (label: string, value: string) => void;
   storage: FilterCheckboxDataType[];
+  icon?: LucideIcon;
+  iconSize?: number;
+  iconClassName?: string;
 };
 
 export const FilterByCheckbox = ({
@@ -22,12 +26,17 @@ export const FilterByCheckbox = ({
   storage,
   triggerName = "Undefined",
   value = "undefined",
+  icon,
+
+  iconClassName,
+  iconSize,
 }: FilterByCheckboxPropstype) => {
   return (
     <AccordionItem value={value}>
       <AccordionTrigger>{triggerName}</AccordionTrigger>
       <AccordionContent className="leading-6 ">
         {data.map((item, i) => {
+          const Icon = icon;
           return (
             <li key={i} className="flex justify-start items-center gap-1.5 ">
               <Checkbox
@@ -38,6 +47,7 @@ export const FilterByCheckbox = ({
                 id={item.value}
                 name={item.value}
               />
+              {Icon && <Icon size={iconSize} className={`${iconClassName} `} />}
               <label htmlFor={item.value}>
                 <ShopFilterMenuItem label={item.label} />
               </label>

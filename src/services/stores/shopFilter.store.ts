@@ -1,18 +1,20 @@
-import { FilterCheckboxDataType } from "@/types/shop"
+import { ColorFamilyType, FilterCheckboxDataType } from "@/types/shop"
 import { action, makeObservable, observable } from "mobx"
 
 
 class ShopFilterStore {
     brand: FilterCheckboxDataType[] = []
     shippingLocations: FilterCheckboxDataType[] = []
+    colorFamily: FilterCheckboxDataType[] = []
     constructor() {
         makeObservable(this, {
             brand: observable,
-          
             setBrand: action,
             removeBrand: action,
             shippingLocations: observable,
             setShippingLocations: action,
+            colorFamily: observable,
+            setColorFamily: action
 
         })
     }
@@ -20,31 +22,45 @@ class ShopFilterStore {
     setBrand(data: FilterCheckboxDataType) {
         if (this.brand.some((b) => b.value === data.value)) {
             this.brand = this.brand.filter((b) => b.value != data.value)
-
-        } else {
-            this.brand = [...this.brand, { ...data }]
+            return
         }
-     
+        this.brand = [...this.brand, { ...data }]
+
+
     }
 
     removeBrand(value: string) {
         this.brand = this.brand.filter((b) => b.value != value)
-      
+
     }
 
     setShippingLocations(data: FilterCheckboxDataType) {
         if (this.shippingLocations.some((s) => s.value === data.value)) {
             this.shippingLocations = this.shippingLocations.filter((s) => s.value != data.value)
-        } else {
-
-            this.shippingLocations = [...this.shippingLocations, { ...data }]
+            return
         }
+
+        this.shippingLocations = [...this.shippingLocations, { ...data }]
+
 
     }
 
     removeShippingLocations(value: string) {
         this.shippingLocations = this.shippingLocations.filter((b) => b.value != value)
-       
+
+    }
+
+    setColorFamily(colorData: FilterCheckboxDataType) {
+        if (this.colorFamily.some((c) => c.value === colorData.value)) {
+            this.colorFamily = this.colorFamily.filter((c) => c.value !== colorData.value)
+            return
+        }
+
+        this.colorFamily = [...this.colorFamily, { ...colorData }]
+    }
+
+    removeColorFamily(value: string) {
+        this.colorFamily = this.colorFamily.filter((c) => c.value !== value)
     }
 }
 

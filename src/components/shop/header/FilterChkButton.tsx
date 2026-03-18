@@ -6,12 +6,13 @@ import {
   PopoverTrigger,
   Badge,
 } from "@/components/ui";
-import { X } from "lucide-react";
+import { LucideIcon, X } from "lucide-react";
 import { FilterCheckboxDataType } from "@/types/shop";
 
 type FilterButtonPropsType = {
   data: FilterCheckboxDataType[];
   triggerName?: string;
+
   onRemoveClick?: (value: string) => void;
 };
 
@@ -36,13 +37,14 @@ export const FilterChkButton = ({
         className="flex flex-row! flex-wrap! max-h-[400px] overflow-y-auto"
       >
         {data.map((item, i) => {
+       
           return (
             <Badge
               className="text-xs! font-normal!"
               variant={"secondary"}
               key={i}
             >
-              {item.label}{" "}
+             
               <span
                 onClick={() => onRemoveClick?.(item.value)}
                 className="text-neutral-400 hover:text-red-500"

@@ -1,3 +1,5 @@
+import { ColorFamilyType } from "@/types/shop";
+
 type CategoryType = {
   label: string;
   slug: string;
@@ -168,4 +170,45 @@ export const SHIPPING_LOCATIONS: ShippingLocationtype[] = [
   { label: "Barishal", value: "barishal" },
   { label: "Mymensingh", value: "mymensingh" },
   { label: "Rangpur", value: "rangpur" },
+];
+
+
+
+export const COLOR_FAMILIES: ColorFamilyType[] = [
+  { label: "Black", value: "black", hex: "#000000" },
+  { label: "White", value: "white", hex: "#FFFFFF" },
+  { label: "Red", value: "red", hex: "#EF4444" },
+  { label: "Blue", value: "blue", hex: "#3B82F6" },
+  { label: "Green", value: "green", hex: "#22C55E" },
+  { label: "Yellow", value: "yellow", hex: "#EAB308" },
+  { label: "Orange", value: "orange", hex: "#F97316" },
+  { label: "Purple", value: "purple", hex: "#A855F7" },
+  { label: "Pink", value: "pink", hex: "#EC4899" },
+  { label: "Gray", value: "gray", hex: "#6B7280" },
+  { label: "Brown", value: "brown", hex: "#92400E" },
+  { label: "Navy", value: "navy", hex: "#1E3A5F" },
+  { label: "Teal", value: "teal", hex: "#14B8A6" },
+  { label: "Gold", value: "gold", hex: "#F59E0B" },
+  { label: "Silver", value: "silver", hex: "#CBD5E1" },
+  { label: "Cyan", value: "cyan", hex: "#06B6D4" },
+  { label: "Lime", value: "lime", hex: "#84CC16" },
+  { label: "Indigo", value: "indigo", hex: "#6366F1" },
+  { label: "Violet", value: "violet", hex: "#7C3AED" },
+  { label: "Rose", value: "rose", hex: "#F43F5E" },
+  { label: "Amber", value: "amber", hex: "#D97706" },
+  { label: "Emerald", value: "emerald", hex: "#10B981" },
+  { label: "Sky", value: "sky", hex: "#0EA5E9" },
+  { label: "Slate", value: "slate", hex: "#475569" },
+  { label: "Zinc", value: "zinc", hex: "#71717A" },
+  { label: "Stone", value: "stone", hex: "#78716C" },
+  { label: "Coral", value: "coral", hex: "#FF6B6B" },
+  { label: "Mint", value: "mint", hex: "#98FFB3" },
+  { label: "Lavender", value: "lavender", hex: "#C4B5FD" },
+  { label: "Peach", value: "peach", hex: "#FFCBA4" },
+  { label: "Cream", value: "cream", hex: "#FFFDD0" },
+  { label: "Maroon", value: "maroon", hex: "#800000" },
+  { label: "Olive", value: "olive", hex: "#808000" },
+  { label: "Turquoise", value: "turquoise", hex: "#40E0D0" },
+  { label: "Magenta", value: "magenta", hex: "#FF00FF" },
+
 ];

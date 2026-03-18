@@ -3,6 +3,7 @@ import { ScrollArea, Accordion } from "@/components/ui";
 import { BrandFilter } from "./BrandFilter";
 import { CategoryFilter } from "./CategoryFilter";
 import { ShippingFilter } from "./ShippingFilter";
+import { ColorFilter } from "./ColorFilter";
 
 export const ShopSidebarFilter = () => {
   return (
@@ -17,6 +18,7 @@ export const ShopSidebarFilter = () => {
           <CategoryFilter />
           <BrandFilter />
           <ShippingFilter />
+          <ColorFilter/>
         </Accordion>
       </ScrollArea>
     </aside>
