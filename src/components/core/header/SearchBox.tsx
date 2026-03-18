@@ -25,7 +25,7 @@ export const SearchBox = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[850px] h-[550px] flex-row! justify-start items-start gap-0 p-0!"
+        className="w-[850px] h-[550px] flex-row! justify-start items-start gap-0 p-0! overflow-hidden!"
         align="end"
       >
         <div className="w-full  h-full">
