@@ -11,6 +11,7 @@ import {
 import { shopFilterStore } from "@/services/stores";
 import { observer } from "mobx-react";
 import { BrandFilterButton } from "./BrandFilterButton";
+import { ShippingFilterButton } from "./ShippingFilterButton";
 
 export const ShopHeader = observer(() => {
   return (
@@ -33,13 +34,15 @@ export const ShopHeader = observer(() => {
         </Breadcrumb>
         <div className="flex justify-start items-center gap-2 mt-1">
           <h1 className="text-lg font-bold">Shop</h1>
-          {shopFilterStore.isFilterActive && (
+          {(shopFilterStore.brand.length ||
+            shopFilterStore.shippingLocations.length) > 0 && (
             <>
               <Separator orientation="vertical" className="h-4" />
               <p className="text-sm font-medium">Filters: </p>
             </>
           )}
           <BrandFilterButton />
+          <ShippingFilterButton/>
         </div>
       </div>
     </div>

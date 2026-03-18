@@ -153,3 +153,19 @@ export const BRANDS: BrandType[] = [
   { label: "Netgear", value: "netgear" },
   { label: "DJI", value: "dji" },
 ];
+
+type ShippingLocationtype = {
+  label: string;
+  value: string;
+};
+
+export const SHIPPING_LOCATIONS: ShippingLocationtype[] = [
+  { label: "Dhaka", value: "dhaka" },
+  { label: "Chittagong", value: "chittagong" },
+  { label: "Rajshahi", value: "rajshahi" },
+  { label: "Khulna", value: "khulna" },
+  { label: "Sylhet", value: "sylhet" },
+  { label: "Barishal", value: "barishal" },
+  { label: "Mymensingh", value: "mymensingh" },
+  { label: "Rangpur", value: "rangpur" },
+];

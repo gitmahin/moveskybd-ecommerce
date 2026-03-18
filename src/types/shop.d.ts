@@ -1,0 +1,1 @@
+export type FilterCheckboxDataType = {label: string, value: string}

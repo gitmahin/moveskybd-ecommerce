@@ -1,13 +1,8 @@
-import {
-  ScrollArea,
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui";
+import { ScrollArea, Accordion } from "@/components/ui";
 
 import { BrandFilter } from "./BrandFilter";
 import { CategoryFilter } from "./CategoryFilter";
+import { ShippingFilter } from "./ShippingFilter";
 
 export const ShopSidebarFilter = () => {
   return (
@@ -21,14 +16,7 @@ export const ShopSidebarFilter = () => {
         >
           <CategoryFilter />
           <BrandFilter />
-
-          <AccordionItem value="shipped-from">
-            <AccordionTrigger>Shipped From</AccordionTrigger>
-            <AccordionContent>
-              Reach us via email, live chat, or phone. We respond within 24
-              hours during business days.
-            </AccordionContent>
-          </AccordionItem>
+          <ShippingFilter />
         </Accordion>
       </ScrollArea>
     </aside>
