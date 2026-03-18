@@ -3,8 +3,9 @@
 @source "../**/*.{ts,tsx}";
 
 :root {
+  --brand-color: #e9b16d;
   --radius: 0.625rem;
-  --background: #F8F7F6;
+  --background: #f8f7f6;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -74,6 +75,8 @@
 }
 
 @theme {
+  --color-brand-color: var(--brand-color);
+  --scroll-bar-color: #d4d4d4;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -121,4 +124,25 @@
     @apply bg-background text-foreground;
     font-family: var(--font-geist-sans);
   }
+}
+
+@utility three-line-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@utility two-line-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@utility one-line-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
