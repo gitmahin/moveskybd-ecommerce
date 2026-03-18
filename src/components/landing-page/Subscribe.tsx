@@ -19,7 +19,7 @@ export const Subscribe = ({ className }: SubscribePropsType) => {
           tips delivered weekly to your inbox.
         </p>
         <div className="flex justify-center items-center gap-3">
-          <Input className="h-12 px-5" />
+          <Input className="h-12 px-5" placeholder="Your email address" />
           <Button variant={"brand"} className="h-12 px-5 font-semibold">
             Subscribe
           </Button>
