@@ -1,11 +1,10 @@
 import React from "react";
 import { PrimaryLayout } from "../Layouts";
-import { FOOTER_LEGAL_LINKS, FOOTER_MENUS } from "@/constants/core.constant";
+import { FOOTER_LEGAL_LINKS, FOOTER_MENUS, PAYMENT_METHODS } from "@/constants";
 import Link from "next/link";
 import { Logo } from "../Logo";
 import { Label } from "@/components/ui";
 import { Mail, Map, MapPin } from "lucide-react";
-import { PAYMENT_METHODS } from "@/constants/commerce.contant";
 import Image from "next/image";
 
 export const Footer = () => {
