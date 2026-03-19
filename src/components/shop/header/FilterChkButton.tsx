@@ -44,7 +44,7 @@ export const FilterChkButton = ({
               variant={"secondary"}
               key={i}
             >
-             
+             {item.label}
               <span
                 onClick={() => onRemoveClick?.(item.value)}
                 className="text-neutral-400 hover:text-red-500"
