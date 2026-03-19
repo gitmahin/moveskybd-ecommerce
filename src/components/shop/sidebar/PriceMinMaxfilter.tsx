@@ -37,6 +37,7 @@ export const PriceMinMaxfilter = observer(() => {
       updated[index] = value;
       return updated;
     });
+ 
     debouncedStoreSinglePriceChange(value, index);
   };
 

@@ -74,7 +74,9 @@ class ShopFilterStore {
         this.priceRange = range
     }
     setPriceRangeByIndex(value: number, index: number) {
-        this.priceRange[index] = value
+        const updated = [...this.priceRange];
+        updated[index] = value;
+        this.priceRange = updated;
     }
     setDefaultPriceRange() {
         this.priceRange = [0, this.maxPrice]
