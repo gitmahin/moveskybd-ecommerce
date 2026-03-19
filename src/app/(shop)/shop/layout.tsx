@@ -1,3 +1,4 @@
+import { ScrollArea } from "@/components";
 import { ShopHeader, ShopSidebarFilter } from "@/components/shop";
 
 type ShopPageLayoutPropsType = {
@@ -10,7 +11,11 @@ export default function ShopPageLayout({ children }: ShopPageLayoutPropsType) {
       <ShopHeader />
       <div className="flex justify-center items-start h-[calc(100%-64px)] w-full ">
         <ShopSidebarFilter />
-        <main className="w-full">{children}</main>
+        <main className="w-full h-full">
+          <ScrollArea className="w-full h-full p-2">
+          {children}
+          </ScrollArea>
+          </main>
       </div>
     </div>
   );

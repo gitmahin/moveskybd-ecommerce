@@ -1,18 +1,15 @@
-import {
-  ScrollArea,
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui";
+import { ScrollArea, Accordion } from "@/components/ui";
 
 import { BrandFilter } from "./BrandFilter";
 import { CategoryFilter } from "./CategoryFilter";
+import { ShippingFilter } from "./ShippingFilter";
+import { ColorFilter } from "./ColorFilter";
+import { PriceMinMaxfilter } from "./PriceMinMaxfilter";
 
 export const ShopSidebarFilter = () => {
   return (
     <aside className="w-[280px] border-r  h-full">
-      <ScrollArea className="h-full w-full pr-3 py-0">
+      <ScrollArea className="h-full w-full pr-3 py-0 pb-20">
         <Accordion
           type="single"
           collapsible
@@ -21,14 +18,9 @@ export const ShopSidebarFilter = () => {
         >
           <CategoryFilter />
           <BrandFilter />
-
-          <AccordionItem value="shipped-from">
-            <AccordionTrigger>Shipped From</AccordionTrigger>
-            <AccordionContent>
-              Reach us via email, live chat, or phone. We respond within 24
-              hours during business days.
-            </AccordionContent>
-          </AccordionItem>
+          <ShippingFilter />
+          <ColorFilter/>
+          <PriceMinMaxfilter/>
         </Accordion>
       </ScrollArea>
     </aside>

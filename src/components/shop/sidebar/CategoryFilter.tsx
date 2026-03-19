@@ -15,7 +15,7 @@ export const CategoryFilter = () => {
         {/* its dummy category */}
         {ALL_CATEGORIES.map((item, i) => {
           return (
-            <Link className="no-underline!" href={`/shop/archive/${item.slug}`} key={item.slug}>
+            <Link className="no-underline!" href={`/shop?category=${item.slug}`} key={item.slug}>
               <ShopFilterMenuItem label={item.label} />
             </Link>
           );
