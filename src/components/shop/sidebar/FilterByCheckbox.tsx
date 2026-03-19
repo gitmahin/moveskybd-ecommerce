@@ -44,11 +44,12 @@ export const FilterByCheckbox = ({
                 onCheckedChange={() =>
                   onFilterCheckedChange?.(item.label, item.value)
                 }
+                className="peer"
                 id={item.value}
                 name={item.value}
               />
               {Icon && <Icon size={iconSize} style={{color: item?.hex, fill: item?.hex}} className={`${iconClassName} border rounded-full`} />}
-              <label htmlFor={item.value}>
+              <label htmlFor={item.value} className="peer-data-[state=checked]:*:text-black">
                 <ShopFilterMenuItem label={item.label} />
               </label>
             </li>

@@ -20,7 +20,8 @@ class ShopFilterStore {
             setColorFamily: action,
             priceRange: observable,
             setPriceRange: action,
-            setDefaultPriceRange: action
+            setDefaultPriceRange: action,
+            clearAllFilters: action
 
         })
     }
@@ -72,8 +73,18 @@ class ShopFilterStore {
     setPriceRange(range: number[]) {
         this.priceRange = range
     }
+    setPriceRangeByIndex(value: number, index: number) {
+        this.priceRange[index] = value
+    }
     setDefaultPriceRange() {
         this.priceRange = [0, this.maxPrice]
+    }
+
+    clearAllFilters() {
+        this.brand = []
+        this.colorFamily = []
+        this.setDefaultPriceRange()
+        this.shippingLocations = []
     }
 }
 

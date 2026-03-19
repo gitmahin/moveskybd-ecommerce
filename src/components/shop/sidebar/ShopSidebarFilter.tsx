@@ -9,7 +9,7 @@ import { PriceMinMaxfilter } from "./PriceMinMaxfilter";
 export const ShopSidebarFilter = () => {
   return (
     <aside className="w-[280px] border-r  h-full">
-      <ScrollArea className="h-full w-full pr-3 py-0">
+      <ScrollArea className="h-full w-full pr-3 py-0 pb-20">
         <Accordion
           type="single"
           collapsible

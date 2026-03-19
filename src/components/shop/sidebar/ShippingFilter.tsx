@@ -8,8 +8,8 @@ export const ShippingFilter = observer(() => {
   return  <FilterByCheckbox
         data={SHIPPING_LOCATIONS}
         storage={shopFilterStore.shippingLocations}
-        triggerName="Shipping"
-        value="shipping"
+        triggerName="Shipped From"
+        value="shipped-from"
         onFilterCheckedChange={(label, value) =>
           shopFilterStore.setShippingLocations({ label, value })
         }

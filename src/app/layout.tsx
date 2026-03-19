@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Suspense } from "react";
 import { GlobalProvider } from "@/components";
 
@@ -31,7 +32,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <Suspense>
-          <GlobalProvider>{children}</GlobalProvider>
+          <GlobalProvider>
+            <SkeletonTheme
+     
+            >
+              {children}
+            </SkeletonTheme>
+          </GlobalProvider>
         </Suspense>
       </body>
     </html>
