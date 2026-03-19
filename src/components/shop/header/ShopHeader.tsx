@@ -16,19 +16,21 @@ import { ShippingFilterButton } from "./ShippingFilterButton";
 import { ColorFamilyFilterButton } from "./ColorFamilyFilterButton";
 import { PriceMinMaxButton } from "./PriceMinMaxButton";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { rmvHypenNSentenceCase } from "@/utils";
+import { ChevronLeft, Router } from "lucide-react";
 
 export const ShopHeader = observer(() => {
   const path_name = usePathname();
   const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+  const router = useRouter();
 
   const breadPaths = useMemo(() => {
-  const category = searchParams.get("category");
     const paths = path_name.split("/");
-    return category ? [...paths, category]: paths;
-  }, [path_name, searchParams])
+    return category ? [...paths, category] : paths;
+  }, [path_name, searchParams]);
 
   return (
     <div className="w-full h-[64px] border-b py-1 flex justify-between items-center">
@@ -44,9 +46,7 @@ export const ShopHeader = observer(() => {
                     ) : item == "shop" ? (
                       <Link href={"/shop"}>Shop</Link>
                     ) : (
-                      <li>
-                        {rmvHypenNSentenceCase(item)}
-                      </li>
+                      <li>{rmvHypenNSentenceCase(item)}</li>
                     )}
                   </BreadcrumbItem>
                   {i < breadPaths.length - 1 && <BreadcrumbSeparator />}
@@ -56,7 +56,27 @@ export const ShopHeader = observer(() => {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex justify-start items-center gap-2 mt-1">
-          <h1 className="text-lg font-bold">Shop</h1>
+          <div className="flex justify-start items-center gap-2">
+            <h1 className="text-lg font-bold">Shop</h1>
+            {category && (
+              <>
+                <Separator orientation="vertical" className="h-4" />
+                <div className="flex justify-start items-center gap-2">
+                  <Button
+                    variant={"outline"}
+                    size={"xs"}
+                    onClick={() => router.push("/shop")}
+                  >
+                    <ChevronLeft  />
+                    Back
+                  </Button>
+                  <h2 className="text-lg font-medium">
+                    {rmvHypenNSentenceCase(category?.toString() || "")}
+                  </h2>
+                </div>
+              </>
+            )}
+          </div>
           {((shopFilterStore.brand.length ||
             shopFilterStore.shippingLocations.length ||
             shopFilterStore.colorFamily.length) > 0 ||
@@ -68,7 +88,7 @@ export const ShopHeader = observer(() => {
               <Button
                 variant={"ghost"}
                 onClick={() => shopFilterStore.clearAllFilters()}
-                className="text-red-500! hover:bg-red-500/5!"
+                className="text-red-500! hover:bg-red-500/5! border border-red-500/40"
                 size={"xs"}
               >
                 Clear all
