@@ -47,7 +47,7 @@ export const FilterByCheckbox = ({
                 id={item.value}
                 name={item.value}
               />
-              {Icon && <Icon size={iconSize} style={{color: item?.hex, fill: item?.hex}} className={`${iconClassName}`} />}
+              {Icon && <Icon size={iconSize} style={{color: item?.hex, fill: item?.hex}} className={`${iconClassName} border rounded-full`} />}
               <label htmlFor={item.value}>
                 <ShopFilterMenuItem label={item.label} />
               </label>

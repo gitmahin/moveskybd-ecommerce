@@ -13,6 +13,7 @@ import { observer } from "mobx-react";
 import { BrandFilterButton } from "./BrandFilterButton";
 import { ShippingFilterButton } from "./ShippingFilterButton";
 import { ColorFamilyFilterButton } from "./ColorFamilyFilterButton";
+import { PriceMinMaxButton } from "./PriceMinMaxButton";
 
 export const ShopHeader = observer(() => {
   return (
@@ -35,16 +36,20 @@ export const ShopHeader = observer(() => {
         </Breadcrumb>
         <div className="flex justify-start items-center gap-2 mt-1">
           <h1 className="text-lg font-bold">Shop</h1>
-          {(shopFilterStore.brand.length ||
-            shopFilterStore.shippingLocations.length ||  shopFilterStore.colorFamily.length) > 0 && (
+          {((shopFilterStore.brand.length ||
+            shopFilterStore.shippingLocations.length ||
+            shopFilterStore.colorFamily.length) > 0 ||
+            shopFilterStore.priceRange[0] !== 0 ||
+            shopFilterStore.priceRange[1] !== shopFilterStore.maxPrice) && (
             <>
               <Separator orientation="vertical" className="h-4" />
               <p className="text-sm font-medium">Filters: </p>
             </>
           )}
           <BrandFilterButton />
-          <ShippingFilterButton/>
-          <ColorFamilyFilterButton/>
+          <ShippingFilterButton />
+          <ColorFamilyFilterButton />
+          <PriceMinMaxButton />
         </div>
       </div>
     </div>

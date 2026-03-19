@@ -12,7 +12,7 @@ import { FilterCheckboxDataType } from "@/types/shop";
 type FilterButtonPropsType = {
   data: FilterCheckboxDataType[];
   triggerName?: string;
-
+  onRemoveFilterClick?: () => void;
   onRemoveClick?: (value: string) => void;
 };
 
@@ -20,6 +20,7 @@ export const FilterChkButton = ({
   data,
   triggerName,
   onRemoveClick,
+  onRemoveFilterClick,
 }: FilterButtonPropsType) => {
   if (data.length <= 0) return null;
   return (
@@ -30,6 +31,16 @@ export const FilterChkButton = ({
           <Badge variant={"default"} className="text-xs! p-0! w-5 h-5">
             {data.length}
           </Badge>
+          <Badge
+            variant={"outline"}
+            onClick={(e) => {
+              e.preventDefault();
+              onRemoveFilterClick?.();
+            }}
+            className="text-xs! p-0! w-5 h-5"
+          >
+            <X />
+          </Badge>
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -37,14 +48,13 @@ export const FilterChkButton = ({
         className="flex flex-row! flex-wrap! max-h-[400px] overflow-y-auto"
       >
         {data.map((item, i) => {
-       
           return (
             <Badge
               className="text-xs! font-normal!"
               variant={"secondary"}
               key={i}
             >
-             {item.label}
+              {item.label}
               <span
                 onClick={() => onRemoveClick?.(item.value)}
                 className="text-neutral-400 hover:text-red-500"

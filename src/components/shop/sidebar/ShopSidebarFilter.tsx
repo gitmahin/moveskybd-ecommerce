@@ -4,6 +4,7 @@ import { BrandFilter } from "./BrandFilter";
 import { CategoryFilter } from "./CategoryFilter";
 import { ShippingFilter } from "./ShippingFilter";
 import { ColorFilter } from "./ColorFilter";
+import { PriceMinMaxfilter } from "./PriceMinMaxfilter";
 
 export const ShopSidebarFilter = () => {
   return (
@@ -19,6 +20,7 @@ export const ShopSidebarFilter = () => {
           <BrandFilter />
           <ShippingFilter />
           <ColorFilter/>
+          <PriceMinMaxfilter/>
         </Accordion>
       </ScrollArea>
     </aside>

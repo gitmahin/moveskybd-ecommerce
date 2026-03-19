@@ -9,6 +9,7 @@ export const ColorFamilyFilterButton = observer(() => {
     <FilterChkButton
       data={shopFilterStore.colorFamily}
       onRemoveClick={(value) => shopFilterStore.removeColorFamily(value)}
+       onRemoveFilterClick={() => shopFilterStore.colorFamily = []}
       triggerName="Color Family"
     />
   );

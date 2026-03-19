@@ -1,11 +1,14 @@
 import { ColorFamilyType, FilterCheckboxDataType } from "@/types/shop"
 import { action, makeObservable, observable } from "mobx"
 
+type PriceRange = number[]
 
 class ShopFilterStore {
     brand: FilterCheckboxDataType[] = []
     shippingLocations: FilterCheckboxDataType[] = []
     colorFamily: FilterCheckboxDataType[] = []
+    priceRange: PriceRange = [0, 20000]
+    maxPrice: number = 20000;
     constructor() {
         makeObservable(this, {
             brand: observable,
@@ -14,7 +17,10 @@ class ShopFilterStore {
             shippingLocations: observable,
             setShippingLocations: action,
             colorFamily: observable,
-            setColorFamily: action
+            setColorFamily: action,
+            priceRange: observable,
+            setPriceRange: action,
+            setDefaultPriceRange: action
 
         })
     }
@@ -61,6 +67,13 @@ class ShopFilterStore {
 
     removeColorFamily(value: string) {
         this.colorFamily = this.colorFamily.filter((c) => c.value !== value)
+    }
+
+    setPriceRange(range: number[]) {
+        this.priceRange = range
+    }
+    setDefaultPriceRange() {
+        this.priceRange = [0, this.maxPrice]
     }
 }
 
