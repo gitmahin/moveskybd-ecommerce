@@ -3,6 +3,7 @@ import {
   OfferCard,
   ProductEngagement,
   ProductPrice,
+  ShipAndBuy,
   VariationTable,
 } from "@/components/single-product";
 import React from "react";
@@ -44,7 +45,9 @@ export default function ProductPage() {
         </div>
         <VariationTable/>
       </div>
-      <div className="w-full "></div>
+      <div className="w-full ">
+        <ShipAndBuy/>
+      </div>
     </div>
   );
 }
