@@ -5,6 +5,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Suspense } from "react";
 import { GlobalProvider } from "@/components";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,10 @@ export default function RootLayout({
             <SkeletonTheme
      
             >
+              <TooltipProvider>
+
               {children}
+              </TooltipProvider>
             </SkeletonTheme>
           </GlobalProvider>
         </Suspense>
