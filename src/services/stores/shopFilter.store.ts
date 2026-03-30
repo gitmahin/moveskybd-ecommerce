@@ -7,8 +7,8 @@ class ShopFilterStore {
     brand: FilterCheckboxDataType[] = []
     shippingLocations: FilterCheckboxDataType[] = []
     colorFamily: FilterCheckboxDataType[] = []
-    priceRange: PriceRange = [0, 20000]
     maxPrice: number = 20000;
+    priceRange: PriceRange = [0, this.maxPrice]
     constructor() {
         makeObservable(this, {
             brand: observable,
@@ -78,6 +78,7 @@ class ShopFilterStore {
         updated[index] = value;
         this.priceRange = updated;
     }
+
     setDefaultPriceRange() {
         this.priceRange = [0, this.maxPrice]
     }

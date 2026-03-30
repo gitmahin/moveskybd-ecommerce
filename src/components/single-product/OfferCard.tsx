@@ -32,7 +32,7 @@ export const OfferCard = ({
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas,
             quo.
           </h4>
-          <div className="flex justify-center items-center p-2 px-5 rounded-md bg-orange-500 gap-2 shrink-0">
+          <div className="flex justify-center items-center p-2 px-5 rounded-md bg-red-500 gap-2 shrink-0">
             <Clock size={15} className="text-white" />
             <div>
                 <p className="text-white text-sm">Ends in</p>
