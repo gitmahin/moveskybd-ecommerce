@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -105,6 +105,7 @@ const VARIATIONS: VariationDataType[] = [
 
 export const VariationTable = () => {
   const handleQuantityChange = (id: string, value: number) => {};
+  const [showImageVariation, setShowImageVariation] = useState<boolean>(true)
   return (
     <div className="w-full">
       <Table>
@@ -121,7 +122,7 @@ export const VariationTable = () => {
           {VARIATIONS.map((item, i) => {
             return (
               <TableRow key={i}>
-                {!item.image ? (
+                {!showImageVariation ? (
                   <TableCell>{item.name}</TableCell>
                 ) : (
                   <TableCell>

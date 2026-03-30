@@ -10,7 +10,7 @@ import {
 
 export const OrderFlowHeader = () => {
   return (
-    <div className=' py-2 sticky top-[65px] bg-background'>
+    <div className=' py-2 sticky top-[64px] bg-background z-50'>
 
     <Breadcrumb>
       <BreadcrumbList>

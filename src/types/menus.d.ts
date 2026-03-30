@@ -8,3 +8,7 @@ export type MenuItemType = {
 export type IconButtonType = {
     icon: LucideIcon
 }
+
+export type MenuWithIconType = {
+  icon?: LucideIcon
+} & Partial<MenuItemType>

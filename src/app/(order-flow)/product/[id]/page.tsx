@@ -2,33 +2,21 @@ import { Label } from "@/components";
 import {
   OfferCard,
   ProductEngagement,
+  ProductImages,
   ProductPrice,
   ShipAndBuy,
   VariationTable,
 } from "@/components/single-product";
+import { Assurance } from "@/components/single-product/Assurance";
 import React from "react";
 
 export default function ProductPage() {
   return (
-    <div className="mt-1 grid grid-cols-[400px_1fr_350px] h-[3000px] gap-5">
-      <div className="w-full ">
-        <div className="border rounded-lg h-[450px] bg-white w-full p-2">
-          <div className="w-full h-full rounded-md bg-background"></div>
-        </div>
-        <div className="mt-5 flex justify-start items-center gap-5">
-          {Array.from({ length: 3 }).map((item, i) => {
-            return (
-              <div
-                className="w-[110px] h-[110px] p-1 rounded-md border bg-white"
-                key={i}
-              >
-                <div className="w-full h-full rounded-sm bg-background"></div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className="w-full space-y-3">
+    <div className="mt-1 grid grid-cols-[400px_1fr_350px] gap-5 pb-20">
+      <section className="w-full ">
+       <ProductImages/>
+      </section>
+      <section className="w-full space-y-3">
         <Label>
           <span className="text-gray-500">SKU:</span> EP-10-5PACKS
         </Label>
@@ -43,11 +31,14 @@ export default function ProductPage() {
         <div>
           <ProductPrice regular_price={500} sale_price={300} />
         </div>
-        <VariationTable/>
-      </div>
-      <div className="w-full ">
-        <ShipAndBuy/>
-      </div>
+        <VariationTable />
+      </section>
+      <section className="w-full ">
+        <ShipAndBuy />
+        <div className="mt-4">
+          <Assurance />
+        </div>
+      </section>
     </div>
   );
 }
