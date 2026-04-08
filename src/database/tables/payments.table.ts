@@ -27,7 +27,9 @@ export const paymentProvidersTable = pgTable("payment_providers", {
     setup_status: PAYMENT_PROVIDER_SETUP_STATUS_E().default("PENDING").notNull(),
     ...is_deleted,
     ...table_timestamps
-})
+}, (table) => [
+    t.index("pp_brand_fk_index").on(table.brand)
+])
 
 
 export const transactionTable = pgTable("transactions", {
@@ -46,4 +48,8 @@ export const transactionTable = pgTable("transactions", {
     provider: t.uuid().references(() => paymentProvidersTable.id, {onDelete: "restrict", onUpdate: "cascade"}),
     metadata: t.jsonb(),
     ...table_timestamps
-})
+}, (table) => [
+    t.index("transction_order_id_fk_index").on(table.order_id),
+    t.index("transction_user_id_fk_index").on(table.user_id),
+    
+])

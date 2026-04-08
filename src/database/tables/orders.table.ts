@@ -15,7 +15,9 @@ export const ordersTable = pgTable("orders", {
     ...is_deleted,
     ...table_timestamps
 
-})
+}, (table) => [
+    t.index("ot_customer_id_fk_index").on(table.customer_id)
+])
 
 
 export const orderItemsTable = pgTable("order_items", {
@@ -24,5 +26,7 @@ export const orderItemsTable = pgTable("order_items", {
     product_id: t.uuid().references(() => productsTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
     ...is_deleted,
     ...table_timestamps
-})
+}, (table) => [
+    t.index("oit_order_id_fk_index").on(table.order_id)
+])
 

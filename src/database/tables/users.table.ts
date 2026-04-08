@@ -12,11 +12,11 @@ export const USER_ACCOUNT_PROVIDER_E = pgEnum("user_account_provider", USER_ACCO
 
 export const usersTable = pgTable("users", {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
-    email: t.varchar({ length: 255 }).unique(),
-    username: t.varchar({ length: 100 }).unique(),
-    role: USER_ROLE_E().default("CUSTOMER"),
-    account_status: USER_ACCOUNT_STATUS_E().default("NORMAL"),
-    account_provider: USER_ACCOUNT_PROVIDER_E().default("MANUAL"),
+    email: t.varchar({ length: 255 }).unique().notNull(),
+    username: t.varchar({ length: 100 }).unique().notNull(),
+    role: USER_ROLE_E().default("CUSTOMER").notNull(),
+    account_status: USER_ACCOUNT_STATUS_E().default("NORMAL").notNull(),
+    account_provider: USER_ACCOUNT_PROVIDER_E().default("MANUAL").notNull(),
     is_verified: t.boolean().notNull().default(false),
     verify_expiry: t.timestamp(),
     verify_code: t.varchar({ length: 8 }).unique(),
@@ -49,35 +49,34 @@ export const user_fl_names = {
     last_name: t.varchar({ length: 100 }),
 }
 
-export const userProfiles = pgTable("user_profiles", {
+export const userProfilesTable = pgTable("user_profiles", {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
     ...user_id_fk,
     ...user_fl_names,
     avatar: t.varchar({ length: 300 }),
     cover_img: t.varchar({ length: 300 }),
     ...table_timestamps
-})
+}, (table) => [
+    t.index("uprofile_user_id_fk_index").on(table.user_id)
+])
 
-export const userAddresses = pgTable("user_addresses", {
+export const userAddressesTable = pgTable("user_addresses", {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
     ...user_id_fk,
     ...user_address,
     ...table_timestamps
-})
+}, (table) => [
+    t.index("uaddr_user_id_fk_index").on(table.user_id)
+])
 
-export const userContacts = pgTable("user_contacts", {
+export const userContactsTable = pgTable("user_contacts", {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
     ...user_id_fk,
     ...user_contact,
     ...table_timestamps
-})
-
-export const userProfileRelations = relations(userProfiles, ({ one }) => ({
-    user: one(usersTable, {
-        fields: [userProfiles.user_id],
-        references: [usersTable.id]
-    })
-}))
+}, (table) => [
+    t.index("ucontact_user_id_fk_index").on(table.user_id)
+])
 
 
 export const userBillingInformationsTable = pgTable("users_billing_infos", {
@@ -90,7 +89,9 @@ export const userBillingInformationsTable = pgTable("users_billing_infos", {
     ...user_address,
     ...is_deleted,
     ...table_timestamps
-});
+}, (table) => [
+    t.index("ubilling_user_id_fk_index").on(table.user_id)
+]);
 
 export const userShippingInformationTable = pgTable("users_shippping_infos", {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
@@ -103,4 +104,15 @@ export const userShippingInformationTable = pgTable("users_shippping_infos", {
     ...user_address,
     ...is_deleted,
     ...table_timestamps
-})
+}, (table) => [
+    t.index("ushipping_user_id_fk_index").on(table.user_id)
+])
+
+
+// -- Relations
+export const userProfileRelations = relations(userProfilesTable, ({ one }) => ({
+    user: one(usersTable, {
+        fields: [userProfilesTable.user_id],
+        references: [usersTable.id]
+    })
+}))

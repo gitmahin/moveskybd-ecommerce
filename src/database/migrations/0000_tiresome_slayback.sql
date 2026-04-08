@@ -99,11 +99,11 @@ CREATE TABLE "users_shippping_infos" (
 --> statement-breakpoint
 CREATE TABLE "users" (
 	"id" uuid PRIMARY KEY NOT NULL,
-	"email" varchar(255),
-	"username" varchar(100),
-	"role" "user_role_enum" DEFAULT 'CUSTOMER',
-	"account_status" "user_account_status_enum" DEFAULT 'NORMAL',
-	"account_provider" "user_account_provider" DEFAULT 'MANUAL',
+	"email" varchar(255) NOT NULL,
+	"username" varchar(100) NOT NULL,
+	"role" "user_role_enum" DEFAULT 'CUSTOMER' NOT NULL,
+	"account_status" "user_account_status_enum" DEFAULT 'NORMAL' NOT NULL,
+	"account_provider" "user_account_provider" DEFAULT 'MANUAL' NOT NULL,
 	"is_verified" boolean DEFAULT false NOT NULL,
 	"verify_expiry" timestamp,
 	"verify_code" varchar(8),
@@ -120,7 +120,7 @@ CREATE TABLE "users" (
 CREATE TABLE "inventory" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"product_id" uuid,
-	"stock_count" integer DEFAULT 1 NOT NULL,
+	"stock_count" integer DEFAULT 0 NOT NULL,
 	"stock_status" "product_stock_status_enum" DEFAULT 'IN_STOCK' NOT NULL,
 	"updated_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -138,7 +138,8 @@ CREATE TABLE "product_attributes" (
 	"deleted_at" timestamp,
 	"updated_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "product_attributes_id_unique" UNIQUE("id")
+	CONSTRAINT "product_attributes_id_unique" UNIQUE("id"),
+	CONSTRAINT "product_attributes_value_unique" UNIQUE("value")
 );
 --> statement-breakpoint
 CREATE TABLE "product_categories" (
@@ -192,7 +193,8 @@ CREATE TABLE "product_variations" (
 	"deleted_at" timestamp,
 	"updated_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "product_variations_id_unique" UNIQUE("id")
+	CONSTRAINT "product_variations_id_unique" UNIQUE("id"),
+	CONSTRAINT "product_variations_sku_unique" UNIQUE("sku")
 );
 --> statement-breakpoint
 CREATE TABLE "products" (
@@ -236,6 +238,7 @@ CREATE TABLE "orders" (
 CREATE TABLE "notes" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"privacy_type" "notes_privacy_type_enum" DEFAULT 'PRIVATE' NOT NULL,
+	"created_by_id" uuid,
 	"title" varchar(100),
 	"content" varchar(300) NOT NULL,
 	"is_deleted" boolean DEFAULT false NOT NULL,
@@ -307,8 +310,25 @@ ALTER TABLE "orders" ADD CONSTRAINT "orders_customer_id_users_id_fk" FOREIGN KEY
 ALTER TABLE "orders" ADD CONSTRAINT "orders_note_notes_id_fk" FOREIGN KEY ("note") REFERENCES "public"."notes"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "orders" ADD CONSTRAINT "orders_billing_id_users_billing_infos_id_fk" FOREIGN KEY ("billing_id") REFERENCES "public"."users_billing_infos"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "orders" ADD CONSTRAINT "orders_shipping_id_users_shippping_infos_id_fk" FOREIGN KEY ("shipping_id") REFERENCES "public"."users_shippping_infos"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "notes" ADD CONSTRAINT "notes_created_by_id_users_id_fk" FOREIGN KEY ("created_by_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "payment_providers" ADD CONSTRAINT "payment_providers_created_by_users_id_fk" FOREIGN KEY ("created_by") REFERENCES "public"."users"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_order_id_orders_id_fk" FOREIGN KEY ("order_id") REFERENCES "public"."orders"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_note_notes_id_fk" FOREIGN KEY ("note") REFERENCES "public"."notes"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
-ALTER TABLE "transactions" ADD CONSTRAINT "transactions_provider_payment_providers_id_fk" FOREIGN KEY ("provider") REFERENCES "public"."payment_providers"("id") ON DELETE restrict ON UPDATE cascade;
+ALTER TABLE "transactions" ADD CONSTRAINT "transactions_provider_payment_providers_id_fk" FOREIGN KEY ("provider") REFERENCES "public"."payment_providers"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
+CREATE INDEX "uaddr_user_id_fk_index" ON "user_addresses" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "ubilling_user_id_fk_index" ON "users_billing_infos" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "ucontact_user_id_fk_index" ON "user_contacts" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "uprofile_user_id_fk_index" ON "user_profiles" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "ushipping_user_id_fk_index" ON "users_shippping_infos" USING btree ("user_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "inventory_product_id_fk_index" ON "inventory" USING btree ("product_id");--> statement-breakpoint
+CREATE INDEX "pa_product_id_fk_index" ON "product_attributes" USING btree ("product_id");--> statement-breakpoint
+CREATE INDEX "pc_product_id_fk_index" ON "product_categories" USING btree ("product_id");--> statement-breakpoint
+CREATE INDEX "pm_product_id_fk_index" ON "product_medias" USING btree ("product_id");--> statement-breakpoint
+CREATE INDEX "pv_product_id_fk_index" ON "product_variations" USING btree ("product_id");--> statement-breakpoint
+CREATE INDEX "pcreated_by_user_id_fk_index" ON "products" USING btree ("created_by_id");--> statement-breakpoint
+CREATE INDEX "oit_order_id_fk_index" ON "order_items" USING btree ("order_id");--> statement-breakpoint
+CREATE INDEX "ot_customer_id_fk_index" ON "orders" USING btree ("customer_id");--> statement-breakpoint
+CREATE INDEX "pp_brand_fk_index" ON "payment_providers" USING btree ("brand");--> statement-breakpoint
+CREATE INDEX "transction_order_id_fk_index" ON "transactions" USING btree ("order_id");--> statement-breakpoint
+CREATE INDEX "transction_user_id_fk_index" ON "transactions" USING btree ("user_id");
