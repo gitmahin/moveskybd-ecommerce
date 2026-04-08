@@ -1,2 +1,2 @@
-export * from "./db.connect"
-export * from "./utils"
+export * from "./db.connect";
+export * from "./utils";

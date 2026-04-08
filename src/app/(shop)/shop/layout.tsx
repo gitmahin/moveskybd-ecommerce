@@ -12,10 +12,8 @@ export default function ShopPageLayout({ children }: ShopPageLayoutPropsType) {
       <div className="flex justify-center items-start h-[calc(100%-64px)] w-full ">
         <ShopSidebarFilter />
         <main className="w-full h-full">
-          <ScrollArea className="w-full h-full p-2">
-          {children}
-          </ScrollArea>
-          </main>
+          <ScrollArea className="w-full h-full p-2">{children}</ScrollArea>
+        </main>
       </div>
     </div>
   );

@@ -14,10 +14,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-
 export const SearchBox = () => {
   return (
-    <Popover >
+    <Popover>
       <PopoverTrigger asChild>
         <Button variant={"secondary"}>
           <SearchIcon size={20} />

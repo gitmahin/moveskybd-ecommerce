@@ -9,7 +9,7 @@ export const ShippingFilterButton = observer(() => {
     <FilterChkButton
       data={shopFilterStore.shippingLocations}
       onRemoveClick={(value) => shopFilterStore.removeShippingLocations(value)}
-       onRemoveFilterClick={() => shopFilterStore.shippingLocations = []}
+      onRemoveFilterClick={() => (shopFilterStore.shippingLocations = [])}
       triggerName="Shipping"
     />
   );

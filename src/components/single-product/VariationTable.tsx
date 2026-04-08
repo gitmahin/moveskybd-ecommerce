@@ -106,12 +106,19 @@ const VARIATIONS: VariationDataType[] = [
   },
 ];
 
-
-
 export const VariationTable = () => {
- 
-  const handleQuantityChange = (id: string, price: number, items_count: number, unit: number) => {
-    productStore.setTotalAddedItemsToBuy({id, price, quantity: items_count, unit})
+  const handleQuantityChange = (
+    id: string,
+    price: number,
+    items_count: number,
+    unit: number
+  ) => {
+    productStore.setTotalAddedItemsToBuy({
+      id,
+      price,
+      quantity: items_count,
+      unit,
+    });
   };
 
   // -- Move to mobx and group in settings
@@ -166,7 +173,12 @@ export const VariationTable = () => {
                   <Quantity
                     stock_count={Number(item.stock_count)}
                     onQuantityChange={(qty) =>
-                      handleQuantityChange(item.id, Number(item.price), qty, item.unit_count as number)
+                      handleQuantityChange(
+                        item.id,
+                        Number(item.price),
+                        qty,
+                        item.unit_count as number
+                      )
                     }
                   />
                 </TableCell>

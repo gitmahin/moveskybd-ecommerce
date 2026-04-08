@@ -67,7 +67,7 @@ export const ShopHeader = observer(() => {
                     size={"xs"}
                     onClick={() => router.push("/shop")}
                   >
-                    <ChevronLeft  />
+                    <ChevronLeft />
                     Back
                   </Button>
                   <h2 className="text-lg font-medium">

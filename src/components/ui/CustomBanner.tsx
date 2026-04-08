@@ -44,17 +44,15 @@ type CustomBannerPropsType = {
   desc: string;
   bg_image?: string;
   primaryButton?: boolean;
-  bgOverLayStyle?: React.CSSProperties
+  bgOverLayStyle?: React.CSSProperties;
   secondaryButton?: boolean;
   badge?: string;
   classNames?: {
-    titleCustomClassName?: string,
-    primaryButtonCustomClassName?: string
-    secondaryButtonCustomClassName?: string
-    descCustomClassName?: string,
-
-
-  }
+    titleCustomClassName?: string;
+    primaryButtonCustomClassName?: string;
+    secondaryButtonCustomClassName?: string;
+    descCustomClassName?: string;
+  };
   badgeVariant?: NonNullable<VariantProps<typeof badgeVariants>["variant"]>;
   primaryButtonContent?: React.ReactNode;
   secondaryButtonContent?: React.ReactNode;
@@ -90,10 +88,9 @@ export const CustomBanner = ({
         className="w-full absolute top-0 left-0 h-full object-cover object-center "
         alt="Hero Image"
       />
-      {
-        bgOverLayStyle &&
-      <div className="absolute inset-0" style={bgOverLayStyle} />
-      }
+      {bgOverLayStyle && (
+        <div className="absolute inset-0" style={bgOverLayStyle} />
+      )}
       <div
         className={`${getVariant.innerContentClassName} relative z-10 flex flex-col justify-center w-full h-full `}
       >
@@ -105,14 +102,18 @@ export const CustomBanner = ({
             {badge}
           </Badge>
         )}
-        <h1 className={`${getVariant.titleClassName} ${classNames?.titleCustomClassName}`}>
+        <h1
+          className={`${getVariant.titleClassName} ${classNames?.titleCustomClassName}`}
+        >
           <span className="text-brand-color">
             {title.split("|")?.[0]?.trim()}
           </span>
           <br />
           <span className="text-white">{title.split("|")?.[1]?.trim()}</span>
         </h1>
-        <p className={`${getVariant.descClassName} text-neutral-200 ${classNames?.descCustomClassName} `}>
+        <p
+          className={`${getVariant.descClassName} text-neutral-200 ${classNames?.descCustomClassName} `}
+        >
           {desc}
         </p>
         {(primaryButton || secondaryButton) && (
@@ -130,7 +131,6 @@ export const CustomBanner = ({
             )}
             {secondaryButton && (
               <Button
-         
                 onClick={() => onSecondaryButtonClick?.()}
                 className={`${getVariant.buttonClassName} ${classNames?.secondaryButtonCustomClassName} backdrop-blur-md `}
               >

@@ -13,7 +13,9 @@ import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 export const PriceMinMaxfilter = observer(() => {
-  const [localRange, setLocalRange] = useState<number[]>(shopFilterStore.priceRange);
+  const [localRange, setLocalRange] = useState<number[]>(
+    shopFilterStore.priceRange
+  );
 
   const debouncedStoreUpdate = useDebouncedCallback((value: number[]) => {
     shopFilterStore.setPriceRange(value);
@@ -23,7 +25,7 @@ export const PriceMinMaxfilter = observer(() => {
     (value: number, index: number) => {
       shopFilterStore.setPriceRangeByIndex(value, index);
     },
-    300,
+    300
   );
 
   const handleChange = (value: number[]) => {
@@ -37,7 +39,7 @@ export const PriceMinMaxfilter = observer(() => {
       updated[index] = value;
       return updated;
     });
- 
+
     debouncedStoreSinglePriceChange(value, index);
   };
 

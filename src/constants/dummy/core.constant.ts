@@ -25,7 +25,6 @@ export const FOOTER_MENUS: FooterMenuType = {
   ],
 };
 
-
 export const FOOTER_LEGAL_LINKS: FooterMenuItemType[] = [
   { label: "Terms & Conditions", slug: "terms-and-conditions" },
   { label: "Privacy Policy", slug: "privacy-policy" },

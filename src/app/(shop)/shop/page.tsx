@@ -12,19 +12,19 @@ import { ShopLoading } from "./ShopLoading";
 const ShopPage = () => {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const filteredProducts = useMemo(() => {
     let result = SHOP_PRODUCTS_WITH_COUNTS;
-    
+
     if (shopFilterStore.brand.length > 0) {
       result = result.filter((item) =>
-        shopFilterStore.brand.some((b) => b.value === item.brand.toLowerCase()),
+        shopFilterStore.brand.some((b) => b.value === item.brand.toLowerCase())
       );
     }
 
     if (shopFilterStore.colorFamily.length > 0) {
       result = result.filter((item) =>
-        shopFilterStore.colorFamily.some((c) => c.value === item.color),
+        shopFilterStore.colorFamily.some((c) => c.value === item.color)
       );
     }
     if (category) {
@@ -34,8 +34,8 @@ const ShopPage = () => {
     if (shopFilterStore.shippingLocations.length > 0) {
       result = result.filter((item) =>
         shopFilterStore.shippingLocations.some(
-          (s) => s.value === item.shipped_from,
-        ),
+          (s) => s.value === item.shipped_from
+        )
       );
     }
 
@@ -43,12 +43,12 @@ const ShopPage = () => {
       result = result.filter(
         (item) =>
           item.regular_price >= shopFilterStore.priceRange[0] &&
-          item.regular_price <= shopFilterStore.priceRange[1],
+          item.regular_price <= shopFilterStore.priceRange[1]
       );
     }
 
     shopBaseStore.setNumberOfProducts(result.length);
-    
+
     return result;
   }, [
     shopFilterStore.colorFamily,
@@ -56,19 +56,18 @@ const ShopPage = () => {
     shopFilterStore.shippingLocations,
     shopFilterStore.priceRange,
     searchParams,
-    
   ]);
 
-useEffect(() => {
-  setLoading(true)
-  const timer = setTimeout(() => {
-    setLoading(false); 
-  }, 500);
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
 
-  return () => clearTimeout(timer);
-}, [shopBaseStore.numberOfProducts]);
+    return () => clearTimeout(timer);
+  }, [shopBaseStore.numberOfProducts]);
 
-  if(loading) return <ShopLoading/>
+  if (loading) return <ShopLoading />;
   if (shopBaseStore.numberOfProducts == 0) return <NoProduct />;
   return (
     <>
@@ -91,7 +90,6 @@ useEffect(() => {
               />
             );
           })}
-       
       </div>
     </>
   );

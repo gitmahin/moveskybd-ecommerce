@@ -48,7 +48,6 @@ export const CATEGORIES: CategoryType[] = [
   },
 ];
 
-
 export const NEW_ARRIVALS: ProductType[] = [
   {
     id: 5,
@@ -57,7 +56,6 @@ export const NEW_ARRIVALS: ProductType[] = [
     image: "/products/na_1.jpg",
     regular_price: 129,
     discount: 0,
- 
   },
   {
     id: 6,
@@ -66,7 +64,6 @@ export const NEW_ARRIVALS: ProductType[] = [
     image: "/products/na_2.jpg",
     regular_price: 59,
     discount: 0,
-  
   },
   {
     id: 7,
@@ -75,7 +72,6 @@ export const NEW_ARRIVALS: ProductType[] = [
     image: "/products/na_3.jpg",
     regular_price: 1099,
     discount: 0,
-    
   },
   {
     id: 8,
@@ -84,7 +80,6 @@ export const NEW_ARRIVALS: ProductType[] = [
     image: "/products/na_4.jpg",
     regular_price: 199,
     discount: 0,
-
   },
   {
     id: 9,
@@ -93,7 +88,6 @@ export const NEW_ARRIVALS: ProductType[] = [
     image: "/products/na_5.jpg",
     regular_price: 35,
     discount: 0,
- 
   },
 ];
 

@@ -14,7 +14,7 @@ export default function ProductPage() {
   return (
     <div className="mt-1 grid grid-cols-[400px_1fr_350px] gap-5 pb-20">
       <section className="w-full ">
-       <ProductImages/>
+        <ProductImages />
       </section>
       <section className="w-full space-y-3">
         <Label>

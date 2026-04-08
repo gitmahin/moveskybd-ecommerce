@@ -64,17 +64,20 @@ export const Footer = () => {
             © 2019-2026 MoveSky Technologies Ltd. All rights Reserved.
           </p>
           <div className="flex items-center gap-1">
-  {FOOTER_LEGAL_LINKS.map((link, index) => (
-    <React.Fragment key={link.slug}>
-      <Link href={`/${link.slug}`} className="text-sm text-neutral-500 font-medium hover:underline">
-        {link.label}
-      </Link>
-      {index < FOOTER_LEGAL_LINKS.length - 1 && (
-        <span className="text-neutral-500">•</span>
-      )}
-    </React.Fragment>
-  ))}
-</div>
+            {FOOTER_LEGAL_LINKS.map((link, index) => (
+              <React.Fragment key={link.slug}>
+                <Link
+                  href={`/${link.slug}`}
+                  className="text-sm text-neutral-500 font-medium hover:underline"
+                >
+                  {link.label}
+                </Link>
+                {index < FOOTER_LEGAL_LINKS.length - 1 && (
+                  <span className="text-neutral-500">•</span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </PrimaryLayout>
     </div>

@@ -4,13 +4,13 @@ import React from "react";
 type ProductEngagementPropsType = {
   rating_count: number;
   reviews_count: number;
-  sold_count: number
+  sold_count: number;
 };
 
 export const ProductEngagement = ({
   rating_count = 4.3,
   reviews_count = 73,
-  sold_count = 91
+  sold_count = 91,
 }: ProductEngagementPropsType) => {
   return (
     <div className="flex items-center">
@@ -27,19 +27,17 @@ export const ProductEngagement = ({
       </svg>
       <p className="ms-2 text-sm font-bold text-heading">{rating_count}</p>
       <span className="w-1 h-1 mx-1.5 bg-gray-400 rounded-full"></span>
-      <a
-        href="#"
-        className="text-sm font-medium  underline hover:no-underline"
-      >
+      <a href="#" className="text-sm font-medium  underline hover:no-underline">
         {reviews_count <= 1
           ? `${reviews_count} review`
           : `${reviews_count} reviews`}
       </a>
       <span className="w-1 h-1 mx-1.5 bg-gray-400 rounded-full"></span>
-      <p className="text-sm font-medium"> {sold_count <= 1
-          ? `${sold_count} sold`
-          : `${sold_count} solds`}</p>
-                <span className="w-1 h-1 mx-1.5 bg-gray-400 rounded-full"></span>
+      <p className="text-sm font-medium">
+        {" "}
+        {sold_count <= 1 ? `${sold_count} sold` : `${sold_count} solds`}
+      </p>
+      <span className="w-1 h-1 mx-1.5 bg-gray-400 rounded-full"></span>
       <Share2Icon size={15} className="hover:fill-black" />
     </div>
   );

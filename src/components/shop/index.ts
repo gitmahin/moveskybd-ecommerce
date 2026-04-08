@@ -1,3 +1,3 @@
-export * from "./sidebar/ShopSidebarFilter"
-export * from "./header/ShopHeader"
-export * from "./ShopFilterMenuItem"
+export * from "./sidebar/ShopSidebarFilter";
+export * from "./header/ShopHeader";
+export * from "./ShopFilterMenuItem";

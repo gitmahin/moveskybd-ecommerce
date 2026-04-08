@@ -19,8 +19,8 @@ export const ShopSidebarFilter = () => {
           <CategoryFilter />
           <BrandFilter />
           <ShippingFilter />
-          <ColorFilter/>
-          <PriceMinMaxfilter/>
+          <ColorFilter />
+          <PriceMinMaxfilter />
         </Accordion>
       </ScrollArea>
     </aside>

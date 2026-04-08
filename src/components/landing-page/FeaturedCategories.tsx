@@ -39,7 +39,14 @@ export const FeaturedCategories = ({
       <LandingPageTitle title="Featured Categories" />
       <div className="grid grid-cols-6 grid-rows-1 gap-3 mt-5">
         {CATEGORIES.map((item, i) => {
-          return <CategoryCard key={i} label={item.label} desc={item.description} icon={item.icon} />;
+          return (
+            <CategoryCard
+              key={i}
+              label={item.label}
+              desc={item.description}
+              icon={item.icon}
+            />
+          );
         })}
       </div>
     </div>

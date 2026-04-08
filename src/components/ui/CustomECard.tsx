@@ -30,7 +30,8 @@ const CustomCardVariant: {
   },
   ecommerce: {
     imageWrapper: "h-[200px] w-full border  rounded-lg mb-2 overflow-hidden",
-    mainWrapperClassName: "w-full min-h-[390px] border  rounded-2xl bg-white p-2 flex flex-col",
+    mainWrapperClassName:
+      "w-full min-h-[390px] border  rounded-2xl bg-white p-2 flex flex-col",
     contentClassName: " flex-1 gap-1 p-1 justify-center",
     titleClassName: "two-line-ellipsis text-[15px] font-medium leading-5",
   },
@@ -88,7 +89,7 @@ export const CustomECard = ({
           {badge}
         </Badge>
       )}
-      
+
       <div className={`${imageWrapper} ${classNames?.customImageClassName}`}>
         <Image
           src={image_src || ""}
@@ -129,22 +130,23 @@ export const CustomECard = ({
               ? getPriceDiscountValue(Number(regular_price), Number(discount))
               : regular_price}
           </span>
-          {discount? (
+          {discount ? (
             <span className="line-through text-neutral-500 ">
               {currency_sign}
               {regular_price}
             </span>
-          ): ""}
+          ) : (
+            ""
+          )}
         </div>
         {shipped_from && (
-        <p className="text-xs font-medium text-neutral-500 ">
-          {shipped_from}
-        </p>
-      )}
+          <p className="text-xs font-medium text-neutral-500 ">
+            {shipped_from}
+          </p>
+        )}
         <Button variant={"brand"} className="w-full" size={"lg"}>
           Buy Now
         </Button>
-        
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export const GlobalProvider = ({ children }: GlobalProviderPropsType) => {
         defaultTheme="light"
         forcedTheme="light"
       >
-        <Toaster richColors position="top-right"   />
+        <Toaster richColors position="top-right" />
         {children}
       </ThemeProvider>
     </>

@@ -9,7 +9,7 @@ export const BrandFilterButton = observer(() => {
     <FilterChkButton
       data={shopFilterStore.brand}
       onRemoveClick={(value) => shopFilterStore.removeBrand(value)}
-      onRemoveFilterClick={() => shopFilterStore.brand = []}
+      onRemoveFilterClick={() => (shopFilterStore.brand = [])}
       triggerName="Brand"
     />
   );

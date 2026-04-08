@@ -94,10 +94,10 @@ export const ProductImages = () => {
           <Swiper
             onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
             spaceBetween={10}
-             onSlideChange={(swiper) => {
-    setActiveIndex(swiper.activeIndex);
-    // ... rest
-  }}
+            onSlideChange={(swiper) => {
+              setActiveIndex(swiper.activeIndex);
+              // ... rest
+            }}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Thumbs]}
             className="w-full h-full"

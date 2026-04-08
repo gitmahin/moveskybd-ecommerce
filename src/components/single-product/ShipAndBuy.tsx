@@ -19,12 +19,12 @@ export const ShipAndBuy = observer(() => {
     let totalPrice: number = 0;
     let updatedPrice: number = 0;
     let items_count: number = 0;
-    let unit_count: number = 0
+    let unit_count: number = 0;
 
     productStore.totalAddedItemsToBuy.map((item, i) => {
       totalPrice += item.price * item.quantity;
       items_count += item.quantity;
-      unit_count += item.quantity*item.unit
+      unit_count += item.quantity * item.unit;
     });
 
     Object.entries(discountOnPurchase).map(
@@ -32,7 +32,7 @@ export const ShipAndBuy = observer(() => {
         if (totalPrice >= Number(discountAblePrice)) {
           discount = discountValue;
         }
-      },
+      }
     );
 
     if (discount > 0) {
@@ -44,7 +44,7 @@ export const ShipAndBuy = observer(() => {
       items_count,
       total_price: totalPrice,
       updated_price: updatedPrice,
-      units: unit_count
+      units: unit_count,
     });
   }, [productStore.totalAddedItemsToBuy]);
 
@@ -64,10 +64,16 @@ export const ShipAndBuy = observer(() => {
         <div className="w-full border-b py-2 pt-4 flex justify-between items-center">
           <div className="space-y-1">
             <p>
-              <span className="text-gray-600">Quantity:</span> <span className="font-medium">{productStore.totalPurchaseAbleItems?.items_count}</span>
+              <span className="text-gray-600">Quantity:</span>{" "}
+              <span className="font-medium">
+                {productStore.totalPurchaseAbleItems?.items_count}
+              </span>
             </p>
             <p>
-             {productStore.totalPurchaseAbleItems?.units} {productStore.totalPurchaseAbleItems.units! > 1 ? "Pieces": "Piece"}
+              {productStore.totalPurchaseAbleItems?.units}{" "}
+              {productStore.totalPurchaseAbleItems.units! > 1
+                ? "Pieces"
+                : "Piece"}
             </p>
           </div>
           {/* <div className="flex justify-between items-center ">
@@ -89,7 +95,7 @@ export const ShipAndBuy = observer(() => {
               Number(
                 (productStore.totalPurchaseAbleItems.total_price! *
                   productStore.totalPurchaseAbleItems.discount) /
-                  100,
+                  100
               )}
           </span>
         </div>
