@@ -1,0 +1,171 @@
+openapi: 3.2.0
+info: 
+  title: MoveSkyBD Core API
+  summary: E-commerce Engine & Inventory Management
+  description: >
+    Welcome to the MoveSkyBD API reference. This interface provides programmatic access 
+    to our comprehensive e-commerce ecosystem, including real-time inventory tracking, 
+    secure payment processing via SSLCommerz, and multi-vendor order orchestration. 
+    Designed for high availability and developer productivity.
+  termsOfService: https://example.com/terms/
+  contact:
+    name: API Support
+    url: https://moveskybd.com/support
+    email: support@moveskybd.com
+  version: 1.0.1
+servers:
+  - url: https://moveskybd.com/api
+    description: Production API
+  - url: http://localhost:{port}/api
+    description: Development API
+    variables:
+      port:
+        enum:
+          - "3001"
+          - "3002"
+        default: "3001"
+paths:
+  # == User Management 
+  # -- Geting user & its related things
+  /v1/user/get/{username}:
+    get:
+      summary: Get user by their username.
+      deprecated: false
+  # -- Updating user & its related things
+  /v1/user/{user_id}/profile/update:
+    patch:
+      summary: Update user profile info
+      deprecated: false
+  /v1/user/{user_id}/avatar/upload: 
+    patch:
+      deprecated: false
+  /v1/user/{user_id}/billing/update: 
+    patch:
+      deprecated: false
+  /v1/user/{user_id}/shipping/update: 
+    patch:
+      deprecated: false
+  /v1/user/{user_id}/address/update: 
+    patch:
+      deprecated: false
+  /v1/user/{user_id}/contact/update: 
+    patch:
+      deprecated: false
+  # -- Forget password
+  /v1/user/{user_id}/password/forgot/verify/{method}:
+    post: 
+      description: When user will click forget password, send verfication email. 
+      deprecated: false
+  /v1/user/{user_id}/password/forgot/verify/confirm/{method}:
+    post: 
+      description: Get otp and verify method and verify user by his/her method. 
+      deprecated: false
+  /v1/user/{user_id}/password/forgot/new/update:
+    patch: 
+      description: Get otp and verify method and verify user by his/her method. 
+      deprecated: false
+  # == Product Management
+  # -- Getting products & its related things
+  /v1/product/get:
+    get:
+      summary: Get all products
+      deprecated: false
+  /v1/product/get/{slug}:
+    get:
+      summary: Get specific product by slug
+      deprecated: false
+  /v1/product/{id}/attributes/get:
+    get:
+      summary: Get all attributes
+      deprecated: false
+  /v1/product/{id}/inventory/get:
+    get:
+      deprecated: false
+  # -- Creating product & its related things
+  /v1/product/create:
+    post:
+      summary: Create new product
+      deprecated: false
+  /v1/product/image/upload:
+    post:
+      deprecated: false
+  /v1/product/{id}/category/create:
+    post:
+      deprecated: false
+  /v1/product/{id}/attributes/create:
+    post:
+      deprecated: false
+  /v1/product/{id}/variation/create:
+    post:
+      deprecated: false
+  # -- Updating product
+  /v1/product/{id}/update:
+    patch:
+      deprecated: false
+  /v1/product/attributes/{id}/update:
+    patch:
+      summary: Update a specific attribute by its ID
+      deprecated: false
+  /v1/product/inventory/{id}/update:
+    patch:
+      summary: Update a specific inventory by its ID 
+      deprecated: false
+  # == Order Management
+  # -- Getting orders
+  /v1/order/get:
+    get:
+      summary: Get all orders
+      deprecated: false
+  /v1/order/{id}/get:
+    get:
+      summary: Get a specific order by its ID
+      deprecated: false
+  # -- Creating orders & its related things
+  /v1/order/create:
+    post:
+      deprecated: false
+  # -- Updating orders & its related things
+  /v1/order/{id}/udpate:
+    patch:
+      summary: Update a specific order by its ID
+      deprecated: false
+  # == Transaction Management
+  # -- Getting transactions
+  /v1/transactions/get:
+    get:
+      summary: Getting all transactions of all users
+      deprecated: false
+  # -- Updating transactions
+  /v1/transactions/{id}/update:
+    patch:
+      summary: Update a specific transaction by its ID
+      deprecated: false
+  # ====================== Admin APIs ==========================
+  # == Manage Payment
+  # -- Geting payment providers
+  /v1/provider/payment/get:
+    get:
+      summary: Get all payment providers
+      deprecated: false
+  /v1/provider/payment/{id}/get:
+    get:
+      summary: Get a specific payment provider by its ID
+      deprecated: false
+  # -- Creating payment provider
+  /v1/provider/payment/create:
+    post:
+      summary: Add new payment provider
+      deprecated: false
+  # -- Updating payment provider config
+  /v1/provider/payment/{id}/update:
+    patch:
+      summary: Setup or update payment provider configuration by its ID
+      deprecated: false
+
+    
+
+  
+  
+  
+ 
+
