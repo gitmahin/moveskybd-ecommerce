@@ -1,3 +1,5 @@
+import { AvatarGroupType } from "@/components/core/AvatarGroups";
+
 type FooterMenuItemType = {
   label: string;
   slug: string;
@@ -29,3 +31,32 @@ export const FOOTER_LEGAL_LINKS: FooterMenuItemType[] = [
   { label: "Terms & Conditions", slug: "terms-and-conditions" },
   { label: "Privacy Policy", slug: "privacy-policy" },
 ];
+
+
+export const AVATAR_GROUP_DATA: AvatarGroupType[] = [
+  {
+    src: "https://github.com/evilrabbit.png",
+    alt: "@evilrabbit",
+    fallback: "ER",
+  },
+  {
+    src: "https://github.com/maxleiter.png",
+    alt: "@maxleiter",
+    fallback: "ML",
+  },
+  {
+    src: "https://github.com/shadcn.png",
+    alt: "@shadcn",
+    fallback: "CN",
+  },
+  {
+    src: "https://github.com/maxleiter.png",
+    alt: "@maxleiter",
+    fallback: "ML",
+  },
+  {
+    src: "https://github.com/evilrabbit.png",
+    alt: "@evilrabbit",
+    fallback: "ER",
+  },
+]
