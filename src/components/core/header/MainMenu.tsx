@@ -266,7 +266,10 @@ export const MainMenu = () => {
                           {value.title}
                         </DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
-                          <DropdownMenuSubContent className="w-[300px]">
+                          <DropdownMenuSubContent className="w-[300px] max-h-[400px] overflow-y-auto overflow-x-hidden [scrollbar-width:thin]
+  [scrollbar-color:transparent_transparent]
+  hover:[scrollbar-color:var(--scroll-bar-color)_transparent]
+  transition-all">
                             {value.list.map((item, j) => {
                               return (
                                 <DropdownMenuItem key={j} className="w-full">
