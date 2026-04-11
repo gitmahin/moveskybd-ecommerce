@@ -7,6 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Suspense } from "react";
 import { GlobalProvider } from "@/components";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import SessionWrapperProvider from "@/providers/SessionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +35,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <Suspense>
-          <GlobalProvider>
-            <SkeletonTheme>
-              <TooltipProvider>{children}</TooltipProvider>
-            </SkeletonTheme>
-          </GlobalProvider>
+          <SessionWrapperProvider>
+            <GlobalProvider>
+              <SkeletonTheme>
+                <TooltipProvider>{children}</TooltipProvider>
+              </SkeletonTheme>
+            </GlobalProvider>
+          </SessionWrapperProvider>
         </Suspense>
       </body>
     </html>
