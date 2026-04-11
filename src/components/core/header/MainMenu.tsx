@@ -293,7 +293,7 @@ export const MainMenu = () => {
           return (
             <NavigationMenuItem key={i}>
               <NavigationMenuLink>
-                <Link href={`/shop/${item.slug}`}>{item.label}</Link>
+                <Link href={`/shop?category=${item.slug}`}>{item.label}</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           );
