@@ -49,7 +49,7 @@ export const ShipAndBuy = observer(() => {
   }, [productStore.totalAddedItemsToBuy]);
 
   return (
-    <div className="w-full bg-white p-4 rounded-lg border sticky top-[100px]">
+    <div className="w-full bg-white p-4 rounded-lg border ">
       <div className="flex justify-start items-center gap-2 text-sm font-medium">
         <Truck size={15} className="shrink-0 text-gray-500" />
         <span className="text-gray-500">Shipping to</span>
