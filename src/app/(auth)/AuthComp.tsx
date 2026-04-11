@@ -13,7 +13,7 @@ import {
 import { AvatarGroups, Stars } from "@/components/core";
 import { AVATAR_GROUP_DATA } from "@/constants";
 import { ChevronLeft, EyeClosed } from "lucide-react";
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -44,10 +44,12 @@ export const AuthComp = ({
       throw new Error("onSubmit function provided but not called");
     }
   };
-  const router = useRouter()
+  const router = useRouter();
   return (
     <>
-    <Button variant={"outline"} size={"sm"} onClick={() => router.push("/")}><ChevronLeft/> Back to Home</Button>
+      <Button variant={"outline"} size={"sm"} onClick={() => router.push("/")}>
+        <ChevronLeft /> Back to Home
+      </Button>
       <div className="flex justify-start  items-center gap-2">
         <Image
           src={"/auth/login_vector.png"}
