@@ -25,11 +25,19 @@ export const ShopHeader = observer(() => {
   const path_name = usePathname();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
+  const groupCategory = searchParams.get("group-category");
   const router = useRouter();
 
   const breadPaths = useMemo(() => {
     const paths = path_name.split("/");
-    return category ? [...paths, category] : paths;
+    let breads = paths;
+    if (groupCategory) {
+      breads = [...breads, groupCategory];
+    }
+    if (category) {
+      breads = [...breads, category];
+    }
+    return breads;
   }, [path_name, searchParams]);
 
   return (
