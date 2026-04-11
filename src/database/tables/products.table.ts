@@ -50,12 +50,10 @@ export const productsTable = pgTable(
 );
 
 export const product_id_fk = {
-  product_id: t
-    .uuid()
-    .references(() => productsTable.id, {
-      onDelete: "set null",
-      onUpdate: "cascade",
-    }),
+  product_id: t.uuid().references(() => productsTable.id, {
+    onDelete: "set null",
+    onUpdate: "cascade",
+  }),
 };
 
 export const productMediasTable = pgTable(
@@ -145,12 +143,10 @@ export const inventoryTable = pgTable(
   "inventory",
   {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
-    product_id: t
-      .uuid()
-      .references(() => productsTable.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      }),
+    product_id: t.uuid().references(() => productsTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
     stock_count: t.integer().notNull().default(0),
     stock_status: PRODUCT_STOCK_STATUS_E().default("IN_STOCK").notNull(),
     ...table_timestamps,

@@ -13,12 +13,10 @@ export const NOTE_PRIVACY_TYPE_E = pgEnum(
 export const notesTable = pgTable("notes", {
   id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
   privacy_type: NOTE_PRIVACY_TYPE_E().default("PRIVATE").notNull(),
-  created_by_id: t
-    .uuid()
-    .references(() => usersTable.id, {
-      onDelete: "set null",
-      onUpdate: "cascade",
-    }),
+  created_by_id: t.uuid().references(() => usersTable.id, {
+    onDelete: "set null",
+    onUpdate: "cascade",
+  }),
   title: t.varchar({ length: 100 }),
   content: t.varchar({ length: 300 }).notNull(),
   ...is_deleted,

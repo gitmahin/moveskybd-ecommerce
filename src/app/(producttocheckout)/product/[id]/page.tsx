@@ -12,11 +12,11 @@ import React from "react";
 
 export default function ProductPage() {
   return (
-    <div className="mt-1 grid grid-cols-[400px_1fr_350px] gap-5 pb-20">
+    <div className="mt-9 grid grid-cols-[400px_1fr_350px] gap-5 pb-20">
       <section className="w-full ">
         <ProductImages />
       </section>
-      <section className="w-full space-y-3">
+      <section className="w-full space-y-3 ">
         <Label>
           <span className="text-gray-500">SKU:</span> EP-10-5PACKS
         </Label>
