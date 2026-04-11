@@ -12,7 +12,6 @@ import {
 import Image from "next/image";
 import React from "react";
 
-
 export default function CartPage() {
   return (
     <div className="pt-10 flex justify-center items-start gap-10 ">
@@ -35,11 +34,17 @@ export default function CartPage() {
 
             <div className="flex justify-between items-center w-full">
               <div className="w-full pl-5 ">
-                <h3 className="text-black text-lg font-medium">Premium Wireless Headphones</h3>
+                <h3 className="text-black text-lg font-medium">
+                  Premium Wireless Headphones
+                </h3>
                 <div className="mt-2">
                   <ButtonGroup>
-                    <Button variant={"outline"}><Heart/> Save for later</Button>
-                    <Button  variant={"destructive"}><Trash/> Remove</Button>
+                    <Button variant={"outline"}>
+                      <Heart /> Save for later
+                    </Button>
+                    <Button variant={"destructive"}>
+                      <Trash /> Remove
+                    </Button>
                   </ButtonGroup>
                 </div>
               </div>

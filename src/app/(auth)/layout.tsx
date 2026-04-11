@@ -46,9 +46,7 @@ export default function AuthLayout({ children }: AuthLayoutPropsType) {
         <div className="max-w-[460px] w-full  h-full">
           <ScrollArea className="w-full h-full px-2 ">
             <div className="min-h-full flex items-center justify-center ">
-              <div className="space-y-5 w-full">
-                {children}
-              </div>
+              <div className="space-y-5 w-full">{children}</div>
             </div>
           </ScrollArea>
         </div>

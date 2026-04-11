@@ -32,7 +32,6 @@ export const FOOTER_LEGAL_LINKS: FooterMenuItemType[] = [
   { label: "Privacy Policy", slug: "privacy-policy" },
 ];
 
-
 export const AVATAR_GROUP_DATA: AvatarGroupType[] = [
   {
     src: "https://github.com/evilrabbit.png",
@@ -59,4 +58,4 @@ export const AVATAR_GROUP_DATA: AvatarGroupType[] = [
     alt: "@evilrabbit",
     fallback: "ER",
   },
-]
+];

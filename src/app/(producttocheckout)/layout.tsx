@@ -5,9 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="mt-[64px] bg-background w-full h-full">
       <Header />
       <PrimaryLayout>
-        <>
-          {children}
-        </>
+        <>{children}</>
       </PrimaryLayout>
     </div>
   );

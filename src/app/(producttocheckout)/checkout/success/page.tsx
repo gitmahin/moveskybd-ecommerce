@@ -69,12 +69,12 @@ export default function CheckoutSuccessPage() {
             </div>
             <div className="w-full rounded-2xl bg-white p-5 h-[150px]">
               <h5 className="text-sm font-semibold flex justify-start items-center gap-1 ">
-                <CreditCard size={16} className="text-brand-color" /> Payment Method
+                <CreditCard size={16} className="text-brand-color" /> Payment
+                Method
               </h5>
               <p className="text-sm text-gray-500 mt-2">
-                Visa ending in •••• 4242
-Billing same as shipping
-<span className="text-gray-400"> Authorized Oct 18, 2023</span>
+                Visa ending in •••• 4242 Billing same as shipping
+                <span className="text-gray-400"> Authorized Oct 18, 2023</span>
               </p>
             </div>
           </div>

@@ -28,12 +28,10 @@ export const paymentProvidersTable = pgTable(
   "payment_providers",
   {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
-    created_by: t
-      .uuid()
-      .references(() => usersTable.id, {
-        onDelete: "restrict",
-        onUpdate: "cascade",
-      }),
+    created_by: t.uuid().references(() => usersTable.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+    }),
     brand: PAYMENT_PROVIDER_BRAND_TYPE_E().notNull().unique(),
     name: t.varchar({ length: 100 }).notNull(),
     image: t.varchar({ length: 300 }).notNull(),
@@ -56,38 +54,30 @@ export const transactionTable = pgTable(
   "transactions",
   {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
-    order_id: t
-      .uuid()
-      .references(() => ordersTable.id, {
-        onDelete: "restrict",
-        onUpdate: "cascade",
-      }),
-    note: t
-      .uuid()
-      .references(() => notesTable.id, {
-        onDelete: "set null",
-        onUpdate: "cascade",
-      }),
+    order_id: t.uuid().references(() => ordersTable.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+    }),
+    note: t.uuid().references(() => notesTable.id, {
+      onDelete: "set null",
+      onUpdate: "cascade",
+    }),
     discount: t.integer(),
     amount: t.integer().notNull(),
     currency: t.varchar({ length: 10 }).notNull(),
     sessionKey: t.varchar({ length: 255 }).unique(),
     status: TRANSACTION_STATUS_E().default("INITIATED").notNull(),
-    user_id: t
-      .uuid()
-      .references(() => usersTable.id, {
-        onDelete: "restrict",
-        onUpdate: "cascade",
-      }),
+    user_id: t.uuid().references(() => usersTable.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+    }),
     last_4: t.varchar({ length: 4 }),
     card_holder_name: t.varchar({ length: 255 }),
     provider_token: t.varchar({ length: 255 }).unique(),
-    provider: t
-      .uuid()
-      .references(() => paymentProvidersTable.id, {
-        onDelete: "restrict",
-        onUpdate: "cascade",
-      }),
+    provider: t.uuid().references(() => paymentProvidersTable.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+    }),
     metadata: t.jsonb(),
     ...table_timestamps,
   },

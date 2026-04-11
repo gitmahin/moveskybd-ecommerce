@@ -35,12 +35,10 @@ export const usersTable = pgTable("users", {
 });
 
 export const user_id_fk = {
-  user_id: t
-    .uuid()
-    .references(() => usersTable.id, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    }),
+  user_id: t.uuid().references(() => usersTable.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
 };
 
 export const user_address = {
@@ -122,12 +120,10 @@ export const userShippingInformationTable = pgTable(
     ...user_id_fk,
     label: t.varchar({ length: 100 }),
     value: t.varchar({ length: 100 }).notNull(),
-    customer_note: t
-      .uuid()
-      .references(() => notesTable.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      }),
+    customer_note: t.uuid().references(() => notesTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
     ...user_fl_names,
     ...user_contact,
     ...user_address,
