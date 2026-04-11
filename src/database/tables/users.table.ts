@@ -24,6 +24,7 @@ export const usersTable = pgTable("users", {
   id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
   email: t.varchar({ length: 255 }).unique().notNull(),
   username: t.varchar({ length: 100 }).unique().notNull(),
+  password: t.varchar({length: 50}).notNull(),
   role: USER_ROLE_E().default("CUSTOMER").notNull(),
   account_status: USER_ACCOUNT_STATUS_E().default("NORMAL").notNull(),
   account_provider: USER_ACCOUNT_PROVIDER_E().default("MANUAL").notNull(),
@@ -53,7 +54,7 @@ export const user_address = {
 export const user_contact = {
   email: t.varchar({ length: 255 }),
   phone: t.varchar({ length: 20 }),
-  countryCode: t.varchar({ length: 5 }),
+  phone_code: t.varchar({ length: 5 }),
   company: t.varchar("company", { length: 200 }),
 };
 
@@ -140,3 +141,40 @@ export const userProfileRelations = relations(userProfilesTable, ({ one }) => ({
     references: [usersTable.id],
   }),
 }));
+
+export const userAddressRelations = relations(userAddressesTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [userAddressesTable.user_id],
+    references: [usersTable.id]
+  })
+}))
+
+
+export const userContactRelations = relations(userContactsTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [userContactsTable.user_id],
+    references: [usersTable.id]
+  })
+}))
+
+export const userBillingInformationRelations = relations(userBillingInformationsTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [userBillingInformationsTable.user_id],
+    references: [usersTable.id]
+  })
+}))
+export const userShippingInformationRelations = relations(userShippingInformationTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [userShippingInformationTable.user_id],
+    references: [usersTable.id]
+  })
+}))
+
+export const userRelations = relations(usersTable, ({one}) => ({
+  profile: one(userProfilesTable),
+  contact: one(userContactsTable),
+  address: one(userAddressesTable),
+  billing: one(userBillingInformationsTable),
+  shipping: one(userShippingInformationTable)
+}))
+
