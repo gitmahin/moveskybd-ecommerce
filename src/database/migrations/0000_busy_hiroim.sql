@@ -1,7 +1,7 @@
 CREATE TYPE "public"."basic_status_enum" AS ENUM('PUBLISHED', 'DRAFT', 'DELETED');--> statement-breakpoint
+CREATE TYPE "public"."user_role_enum" AS ENUM('ADMIN', 'CUSTOMER');--> statement-breakpoint
 CREATE TYPE "public"."user_account_provider" AS ENUM('GOOGLE', 'GITHUB', 'MANUAL', 'DISCORD', 'APPLE', 'FACEBOOK');--> statement-breakpoint
 CREATE TYPE "public"."user_account_status_enum" AS ENUM('RESTRICTED', 'SUSPENDED', 'DELETED', 'NORMAL');--> statement-breakpoint
-CREATE TYPE "public"."user_role_enum" AS ENUM('ADMIN', 'CUSTOMER');--> statement-breakpoint
 CREATE TYPE "public"."product_attr_type_enum" AS ENUM('COLOR', 'IMAGE', 'BUTTON', 'RADIO');--> statement-breakpoint
 CREATE TYPE "public"."product_media_type_enum" AS ENUM('VIDEO', 'IMAGE');--> statement-breakpoint
 CREATE TYPE "public"."product_stock_status_enum" AS ENUM('IN_STOCK', 'OUT_OF_STOCK', 'ON_BACK_ORDER');--> statement-breakpoint
@@ -16,7 +16,7 @@ CREATE TABLE "user_addresses" (
 	"addr1" varchar(300),
 	"addr2" varchar(300),
 	"city" varchar(100),
-	"post_code" varchar(12),
+	"post_code" varchar(20),
 	"country_iso" varchar(5),
 	"state" varchar(50),
 	"updated_at" timestamp,
@@ -32,13 +32,13 @@ CREATE TABLE "users_billing_infos" (
 	"first_name" varchar(100) NOT NULL,
 	"last_name" varchar(100),
 	"email" varchar(255),
-	"phone" varchar(20),
-	"phone_code" varchar(5),
+	"phone" varchar(30),
+	"phone_code" varchar(10),
 	"company" varchar(200),
 	"addr1" varchar(300),
 	"addr2" varchar(300),
 	"city" varchar(100),
-	"post_code" varchar(12),
+	"post_code" varchar(20),
 	"country_iso" varchar(5),
 	"state" varchar(50),
 	"is_deleted" boolean DEFAULT false NOT NULL,
@@ -52,8 +52,8 @@ CREATE TABLE "user_contacts" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"user_id" uuid,
 	"email" varchar(255),
-	"phone" varchar(20),
-	"phone_code" varchar(5),
+	"phone" varchar(30),
+	"phone_code" varchar(10),
 	"company" varchar(200),
 	"updated_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -81,13 +81,13 @@ CREATE TABLE "users_shippping_infos" (
 	"first_name" varchar(100) NOT NULL,
 	"last_name" varchar(100),
 	"email" varchar(255),
-	"phone" varchar(20),
-	"phone_code" varchar(5),
+	"phone" varchar(30),
+	"phone_code" varchar(10),
 	"company" varchar(200),
 	"addr1" varchar(300),
 	"addr2" varchar(300),
 	"city" varchar(100),
-	"post_code" varchar(12),
+	"post_code" varchar(20),
 	"country_iso" varchar(5),
 	"state" varchar(50),
 	"is_deleted" boolean DEFAULT false NOT NULL,
@@ -239,6 +239,7 @@ CREATE TABLE "orders" (
 CREATE TABLE "notes" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"privacy_type" "notes_privacy_type_enum" DEFAULT 'PRIVATE' NOT NULL,
+	"role" "user_role_enum" DEFAULT 'CUSTOMER' NOT NULL,
 	"created_by_id" uuid,
 	"title" varchar(100),
 	"content" varchar(300) NOT NULL,
@@ -317,10 +318,10 @@ ALTER TABLE "transactions" ADD CONSTRAINT "transactions_order_id_orders_id_fk" F
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_note_notes_id_fk" FOREIGN KEY ("note") REFERENCES "public"."notes"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_provider_payment_providers_id_fk" FOREIGN KEY ("provider") REFERENCES "public"."payment_providers"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
-CREATE INDEX "uaddr_user_id_fk_index" ON "user_addresses" USING btree ("user_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "uaddr_user_id_fk_index" ON "user_addresses" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "ubilling_user_id_fk_index" ON "users_billing_infos" USING btree ("user_id");--> statement-breakpoint
-CREATE INDEX "ucontact_user_id_fk_index" ON "user_contacts" USING btree ("user_id");--> statement-breakpoint
-CREATE INDEX "uprofile_user_id_fk_index" ON "user_profiles" USING btree ("user_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "ucontact_user_id_fk_index" ON "user_contacts" USING btree ("user_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "uprofile_user_id_fk_index" ON "user_profiles" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "ushipping_user_id_fk_index" ON "users_shippping_infos" USING btree ("user_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "inventory_product_id_fk_index" ON "inventory" USING btree ("product_id");--> statement-breakpoint
 CREATE INDEX "pa_product_id_fk_index" ON "product_attributes" USING btree ("product_id");--> statement-breakpoint

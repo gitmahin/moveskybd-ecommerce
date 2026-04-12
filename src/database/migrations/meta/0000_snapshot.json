@@ -1,5 +1,5 @@
 {
-  "id": "28665bfa-4492-4c05-9b60-da720add2da6",
+  "id": "eb0b2b52-462e-4920-8b3f-555d576d2765",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -40,7 +40,7 @@
         },
         "post_code": {
           "name": "post_code",
-          "type": "varchar(12)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false
         },
@@ -81,7 +81,7 @@
               "nulls": "last"
             }
           ],
-          "isUnique": false,
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -164,13 +164,13 @@
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar(30)",
           "primaryKey": false,
           "notNull": false
         },
         "phone_code": {
           "name": "phone_code",
-          "type": "varchar(5)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
         },
@@ -200,7 +200,7 @@
         },
         "post_code": {
           "name": "post_code",
-          "type": "varchar(12)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false
         },
@@ -313,13 +313,13 @@
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar(30)",
           "primaryKey": false,
           "notNull": false
         },
         "phone_code": {
           "name": "phone_code",
-          "type": "varchar(5)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
         },
@@ -354,7 +354,7 @@
               "nulls": "last"
             }
           ],
-          "isUnique": false,
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -454,7 +454,7 @@
               "nulls": "last"
             }
           ],
-          "isUnique": false,
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -543,13 +543,13 @@
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar(30)",
           "primaryKey": false,
           "notNull": false
         },
         "phone_code": {
           "name": "phone_code",
-          "type": "varchar(5)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
         },
@@ -579,7 +579,7 @@
         },
         "post_code": {
           "name": "post_code",
-          "type": "varchar(12)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false
         },
@@ -1860,6 +1860,14 @@
           "notNull": true,
           "default": "'PRIVATE'"
         },
+        "role": {
+          "name": "role",
+          "type": "user_role_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'CUSTOMER'"
+        },
         "created_by_id": {
           "name": "created_by_id",
           "type": "uuid",
@@ -2323,6 +2331,14 @@
         "DELETED"
       ]
     },
+    "public.user_role_enum": {
+      "name": "user_role_enum",
+      "schema": "public",
+      "values": [
+        "ADMIN",
+        "CUSTOMER"
+      ]
+    },
     "public.user_account_provider": {
       "name": "user_account_provider",
       "schema": "public",
@@ -2343,14 +2359,6 @@
         "SUSPENDED",
         "DELETED",
         "NORMAL"
-      ]
-    },
-    "public.user_role_enum": {
-      "name": "user_role_enum",
-      "schema": "public",
-      "values": [
-        "ADMIN",
-        "CUSTOMER"
       ]
     },
     "public.product_attr_type_enum": {

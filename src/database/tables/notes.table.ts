@@ -1,6 +1,6 @@
 import { pgTable, pgEnum } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
-import { is_deleted, table_timestamps } from "./helper";
+import { is_deleted, table_timestamps, USER_ROLE_E } from "./helper";
 import { NOTE_PRIVACY_TYPE_VALUES } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import { usersTable } from "./users.table";
@@ -13,6 +13,7 @@ export const NOTE_PRIVACY_TYPE_E = pgEnum(
 export const notesTable = pgTable("notes", {
   id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
   privacy_type: NOTE_PRIVACY_TYPE_E().default("PRIVATE").notNull(),
+  role: USER_ROLE_E().default("CUSTOMER").notNull(),
   created_by_id: t.uuid().references(() => usersTable.id, {
     onDelete: "set null",
     onUpdate: "cascade",

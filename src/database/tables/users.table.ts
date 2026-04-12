@@ -1,6 +1,6 @@
 import { pgTable, pgEnum } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
-import { table_timestamps, is_deleted } from "./helper";
+import { table_timestamps, is_deleted, USER_ROLE_E } from "./helper";
 import {
   ROLE_VALUES,
   USER_ACCOUNT_PROVIDER_VALUES,
@@ -10,7 +10,7 @@ import { relations } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { notesTable } from "./notes.table";
 
-export const USER_ROLE_E = pgEnum("user_role_enum", ROLE_VALUES);
+
 export const USER_ACCOUNT_STATUS_E = pgEnum(
   "user_account_status_enum",
   USER_ACCOUNT_STATUS_VALUES
@@ -46,15 +46,15 @@ export const user_address = {
   addr1: t.varchar({ length: 300 }),
   addr2: t.varchar({ length: 300 }),
   city: t.varchar({ length: 100 }),
-  post_code: t.varchar({ length: 12 }),
+  post_code: t.varchar({ length: 20 }),
   country_iso: t.varchar({ length: 5 }),
   state: t.varchar({ length: 50 }),
 };
 
 export const user_contact = {
   email: t.varchar({ length: 255 }),
-  phone: t.varchar({ length: 20 }),
-  phone_code: t.varchar({ length: 5 }),
+  phone: t.varchar({ length: 30 }),
+  phone_code: t.varchar({ length: 10 }),
   company: t.varchar("company", { length: 200 }),
 };
 
@@ -73,7 +73,7 @@ export const userProfilesTable = pgTable(
     cover_img: t.varchar({ length: 300 }),
     ...table_timestamps,
   },
-  (table) => [t.index("uprofile_user_id_fk_index").on(table.user_id)]
+  (table) => [t.uniqueIndex("uprofile_user_id_fk_index").on(table.user_id)]
 );
 
 export const userAddressesTable = pgTable(
@@ -84,7 +84,7 @@ export const userAddressesTable = pgTable(
     ...user_address,
     ...table_timestamps,
   },
-  (table) => [t.index("uaddr_user_id_fk_index").on(table.user_id)]
+  (table) => [t.uniqueIndex("uaddr_user_id_fk_index").on(table.user_id)]
 );
 
 export const userContactsTable = pgTable(
@@ -95,7 +95,7 @@ export const userContactsTable = pgTable(
     ...user_contact,
     ...table_timestamps,
   },
-  (table) => [t.index("ucontact_user_id_fk_index").on(table.user_id)]
+  (table) => [t.uniqueIndex("ucontact_user_id_fk_index").on(table.user_id)]
 );
 
 export const userBillingInformationsTable = pgTable(
@@ -170,11 +170,11 @@ export const userShippingInformationRelations = relations(userShippingInformatio
   })
 }))
 
-export const userRelations = relations(usersTable, ({one}) => ({
+export const userRelations = relations(usersTable, ({one, many}) => ({
   profile: one(userProfilesTable),
   contact: one(userContactsTable),
   address: one(userAddressesTable),
-  billing: one(userBillingInformationsTable),
-  shipping: one(userShippingInformationTable)
+  billing: many(userBillingInformationsTable),
+  shipping: many(userShippingInformationTable)
 }))
 

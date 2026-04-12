@@ -1,0 +1,66 @@
+import { BaseConfig } from "@/config";
+import { inspect } from "util";
+import type { LoggerOptions as LoggerOptionsType, Logger } from "winston";
+import { createLogger, format, transports, addColors } from "winston";
+import { npm } from "winston/lib/winston/config";
+
+type LogMetadata = {
+  [key: string]: any;
+};
+
+type CustomLoggerType = {
+  log: (
+    level: keyof typeof customLevels.levels,
+    message: string,
+    meta?: LogMetadata
+  ) => CustomLoggerType;
+  info: (message: string, meta?: LogMetadata) => CustomLoggerType;
+  error: (message: string, meta?: LogMetadata) => CustomLoggerType;
+  warn: (message: string, meta?: LogMetadata) => CustomLoggerType;
+} & Logger;
+
+const defaultLevels = npm.levels;
+const defaultColors = npm.colors;
+const customLevels = {
+  levels: {
+    ...defaultLevels,
+    success: 0,
+  },
+  colors: {
+    ...defaultColors,
+    success: "green",
+  },
+};
+
+export type CustomLogLevels = keyof typeof customLevels.levels;
+export type CustomLogColors = keyof typeof customLevels.colors;
+
+addColors(customLevels.colors);
+
+const CustomLoggerFormat = format.printf(
+  ({ level, message, timestamp, ...meta }) => {
+    const metaData = Object.keys(meta).length
+      ? ` | ${inspect(meta, { depth: null, colors: true })}`
+      : "";
+    return `${timestamp} | [${level}] : ${message}${metaData}`;
+  }
+);
+
+const LoggerOptions: LoggerOptionsType = {
+  level: "info",
+  levels: customLevels.levels,
+  format: format.combine(
+    format.timestamp({
+      format:
+        BaseConfig.NODE_ENV === "development"
+          ? "HH:mm:ss"
+          : "DD-MM-YYYY HH:mm:ss",
+    }),
+    format.json(),
+    format.colorize(),
+    CustomLoggerFormat
+  ),
+  transports: [new transports.Console()],
+};
+
+export const logger = createLogger(LoggerOptions) as CustomLoggerType;
