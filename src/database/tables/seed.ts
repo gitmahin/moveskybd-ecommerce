@@ -9,34 +9,6 @@ import { faker } from '@faker-js/faker';
 import { PgUserAddressInsertType, PgUserBillingInformationInsertType, PgUserContactInsertType, PgUserProfileInsertType, PgUserShippingInformationInsertType } from "./types";
 import { v4 as uuidv4 } from "uuid"
 
-export const schema = {
-    // users
-    usersTable,
-    userAddressesTable,
-    userBillingInformationsTable,
-    userContactsTable,
-    userProfilesTable,
-    // userShippingInformationTable,
-
-    // // products
-    // productAttributesTable,
-    // productsTable,
-    // inventoryTable,
-    // productMediasTable,
-    // productCategoriesTable,
-    // productVariationsTable,
-
-    // // orders
-    // ordersTable,
-    // orderItemsTable,
-
-    // // payments
-    // transactionTable,
-    // paymentProvidersTable,
-
-    // // notes
-    // notesTable,
-}
 
 const FAKE_NUMBERS: string[] = []
 
@@ -118,8 +90,58 @@ const main = async () => {
         })
     )
 
-    // -- Insert users billing & shipping informations
-    
+
+    // -- Insert users billing informations
+    await pgDb.insert(userBillingInformationsTable).values(
+        Array.from({ length: 20 }, (_, i) => {
+            const profile = userProfiles[i % userProfiles.length]
+            const insertionData: PgUserBillingInformationInsertType = {
+                id: uuidv4(),
+                user_id: profile.user_id,
+                label: faker.word.adjective(),
+                value: faker.word.adverb({ length: { min: 5, max: 7 } }),
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                email: faker.internet.email({ firstName: profile.first_name, lastName: profile.last_name! }),
+                phone: faker.string.numeric(10),
+                phone_code: faker.phone.number({ style: "national" }).split("(")[1].split(")")[0],
+                company: faker.company.name(),
+                addr1: faker.location.streetAddress(),
+                addr2: faker.location.streetAddress(),
+                city: faker.location.city(),
+                country_iso: faker.location.countryCode('alpha-2'),
+                post_code: faker.location.zipCode(),
+                state: faker.location.state(),
+            }
+            return insertionData
+        })
+    )
+
+    // -- Insert users shipping informations
+    await pgDb.insert(userShippingInformationTable).values(
+        Array.from({ length: 20 }, (_, i) => {
+            const profile = userProfiles[i % userProfiles.length]
+            const insertionData: PgUserShippingInformationInsertType = {
+                id: uuidv4(),
+                user_id: profile.user_id,
+                label: faker.word.adjective(),
+                value: faker.word.adverb({ length: { min: 5, max: 7 } }),
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                email: faker.internet.email({ firstName: profile.first_name, lastName: profile.last_name! }),
+                phone: faker.string.numeric(10),
+                phone_code: faker.phone.number({ style: "national" }).split("(")[1].split(")")[0],
+                company: faker.company.name(),
+                addr1: faker.location.streetAddress(),
+                addr2: faker.location.streetAddress(),
+                city: faker.location.city(),
+                country_iso: faker.location.countryCode('alpha-2'),
+                post_code: faker.location.zipCode(),
+                state: faker.location.state(),
+            }
+            return insertionData
+        })
+    )
 }
 
 main()
