@@ -1,4 +1,4 @@
-import { pgTable, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, primaryKey } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 import { table_timestamps, BASIC_STATUS_E, is_deleted } from "./helper";
 import {
@@ -8,8 +8,9 @@ import {
   PRODUCT_VARIATION_TYPE_VALUES,
 } from "./constants";
 import { usersTable } from "./users.table";
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
+import { ordersTable } from "./orders.table";
 
 export const PRODUCT_MEDIA_TYPE_E = pgEnum(
   "product_media_type_enum",
@@ -155,3 +156,131 @@ export const inventoryTable = pgTable(
     t.uniqueIndex("inventory_product_id_fk_index").on(table.product_id),
   ]
 );
+
+// -- Many to many
+
+export const productCategoriesToProductsTable = pgTable(
+  "product_cat_to_products",
+  {
+    product_id: t.uuid().references(() => productsTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    product_cat_id: t.uuid().references(() => productCategoriesTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  },
+  (table) => [primaryKey({ columns: [table.product_id, table.product_cat_id] })]
+);
+
+export const productAttributesToProductsTable = pgTable(
+  "product_attr_to_products",
+  {
+    product_id: t.uuid().references(() => productsTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    product_attr_id: t.uuid().references(() => productAttributesTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  },
+  (table) => [
+    primaryKey({ columns: [table.product_id, table.product_attr_id] }),
+  ]
+);
+
+export const productMediasToProductsTable = pgTable(
+  "product_media_to_products",
+  {
+    product_id: t.uuid().references(() => productsTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    product_media_id: t.uuid().references(() => productMediasTable.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  },
+  (table) => [
+    primaryKey({ columns: [table.product_id, table.product_media_id] }),
+  ]
+);
+
+// -- Relations
+export const productsTableRelations = relations(
+  productsTable,
+  ({ many, one }) => ({
+    categories: many(productCategoriesToProductsTable),
+    attributes: many(productAttributesToProductsTable),
+    medias: many(productMediasToProductsTable),
+    variations: many(productVariationsTable),
+    orders: many(ordersTable),
+    inventory: one(inventoryTable),
+    created_by: one(usersTable, {
+      fields: [productsTable.created_by_id],
+      references: [usersTable.id],
+    }),
+  })
+);
+
+export const productCategoriesToProductsTableRelations = relations(
+  productCategoriesToProductsTable,
+  ({ one }) => ({
+    category: one(productCategoriesTable, {
+      fields: [productCategoriesToProductsTable.product_cat_id],
+      references: [productCategoriesTable.id],
+    }),
+    product: one(productsTable, {
+      fields: [productCategoriesToProductsTable.product_id],
+      references: [productsTable.id],
+    }),
+  })
+);
+
+export const productAttributesToProductsTableRelations = relations(
+  productAttributesToProductsTable,
+  ({ one }) => ({
+    product: one(productsTable, {
+      fields: [productAttributesToProductsTable.product_id],
+      references: [productsTable.id],
+    }),
+    attribute: one(productAttributesTable, {
+      fields: [productAttributesToProductsTable.product_attr_id],
+      references: [productAttributesTable.id],
+    }),
+  })
+);
+
+export const productMediasToProductsTableRelations = relations(
+  productMediasToProductsTable,
+  ({ one }) => ({
+    product: one(productsTable, {
+      fields: [productMediasToProductsTable.product_id],
+      references: [productsTable.id],
+    }),
+    media: one(productMediasTable, {
+      fields: [productMediasToProductsTable.product_media_id],
+      references: [productMediasTable.id],
+    }),
+  })
+);
+
+export const productVariationsTableRelations = relations(
+  productVariationsTable,
+  ({ one }) => ({
+    product: one(productsTable, {
+      fields: [productVariationsTable.product_id],
+      references: [productsTable.id],
+    }),
+  })
+);
+
+
+export const inventoryTableRelations = relations(inventoryTable, ({one}) =>({
+  product: one(productsTable, {
+    fields: [inventoryTable.product_id],
+    references: [productsTable.id]
+  })
+}))

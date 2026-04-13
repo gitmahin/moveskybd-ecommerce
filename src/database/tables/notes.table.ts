@@ -3,7 +3,10 @@ import * as t from "drizzle-orm/pg-core";
 import { is_deleted, table_timestamps, USER_ROLE_E } from "./helper";
 import { NOTE_PRIVACY_TYPE_VALUES } from "./constants";
 import { v4 as uuidv4 } from "uuid";
-import { usersTable } from "./users.table";
+import { userShippingInformationTable, usersTable } from "./users.table";
+import { relations } from "drizzle-orm";
+import { ordersTable } from "./orders.table";
+import { transactionTable } from "./payments.table";
 
 export const NOTE_PRIVACY_TYPE_E = pgEnum(
   "notes_privacy_type_enum",
@@ -23,3 +26,13 @@ export const notesTable = pgTable("notes", {
   ...is_deleted,
   ...table_timestamps,
 });
+
+export const notesTableRelations = relations(notesTable, ({ one }) => ({
+  user_shipping_info: one(userShippingInformationTable),
+  order_note: one(ordersTable),
+  transaction: one(transactionTable),
+  created_by: one(usersTable, {
+    fields: [notesTable.created_by_id],
+    references: [usersTable.id],
+  }),
+}));

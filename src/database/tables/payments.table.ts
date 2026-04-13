@@ -10,6 +10,7 @@ import {
 import { usersTable } from "./users.table";
 import { ordersTable } from "./orders.table";
 import { notesTable } from "./notes.table";
+import { relations } from "drizzle-orm";
 
 export const PAYMENT_PROVIDER_BRAND_TYPE_E = pgEnum(
   "payment_provider_brand_enum",
@@ -28,7 +29,7 @@ export const paymentProvidersTable = pgTable(
   "payment_providers",
   {
     id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
-    created_by: t.uuid().references(() => usersTable.id, {
+    created_by_id: t.uuid().references(() => usersTable.id, {
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
@@ -58,7 +59,7 @@ export const transactionTable = pgTable(
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
-    note: t.uuid().references(() => notesTable.id, {
+    note_id: t.uuid().references(() => notesTable.id, {
       onDelete: "set null",
       onUpdate: "cascade",
     }),
@@ -74,7 +75,7 @@ export const transactionTable = pgTable(
     last_4: t.varchar({ length: 4 }),
     card_holder_name: t.varchar({ length: 255 }),
     provider_token: t.varchar({ length: 255 }).unique(),
-    provider: t.uuid().references(() => paymentProvidersTable.id, {
+    provider_id: t.uuid().references(() => paymentProvidersTable.id, {
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
@@ -85,4 +86,38 @@ export const transactionTable = pgTable(
     t.index("transction_order_id_fk_index").on(table.order_id),
     t.index("transction_user_id_fk_index").on(table.user_id),
   ]
+);
+
+// -- Relations
+export const paymentProvidersTableRelations = relations(
+  paymentProvidersTable,
+  ({ one, many }) => ({
+    created_by: one(usersTable, {
+      fields: [paymentProvidersTable.created_by_id],
+      references: [usersTable.id],
+    }),
+    transactions: many(transactionTable),
+  })
+);
+
+export const transactionTableRelations = relations(
+  transactionTable,
+  ({ one, many }) => ({
+    order: one(ordersTable, {
+      fields: [transactionTable.order_id],
+      references: [ordersTable.id],
+    }),
+    note: one(notesTable, {
+      fields: [transactionTable.note_id],
+      references: [notesTable.id],
+    }),
+    user: one(usersTable, {
+      fields: [transactionTable.user_id],
+      references: [usersTable.id],
+    }),
+    provider: one(paymentProvidersTable, {
+      fields: [transactionTable.provider_id],
+      references: [paymentProvidersTable.id],
+    }),
+  })
 );

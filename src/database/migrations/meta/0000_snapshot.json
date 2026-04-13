@@ -1,5 +1,5 @@
 {
-  "id": "eb0b2b52-462e-4920-8b3f-555d576d2765",
+  "id": "e67cb725-8245-4225-9c9b-e05dbe50df32",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -517,8 +517,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "customer_note": {
-          "name": "customer_note",
+        "customer_note_id": {
+          "name": "customer_note_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
@@ -637,6 +637,21 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "ushipping_customer_note_id_fk_index": {
+          "name": "ushipping_customer_note_id_fk_index",
+          "columns": [
+            {
+              "expression": "customer_note_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -653,12 +668,12 @@
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "users_shippping_infos_customer_note_notes_id_fk": {
-          "name": "users_shippping_infos_customer_note_notes_id_fk",
+        "users_shippping_infos_customer_note_id_notes_id_fk": {
+          "name": "users_shippping_infos_customer_note_id_notes_id_fk",
           "tableFrom": "users_shippping_infos",
           "tableTo": "notes",
           "columnsFrom": [
-            "customer_note"
+            "customer_note_id"
           ],
           "columnsTo": [
             "id"
@@ -1028,6 +1043,66 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.product_attr_to_products": {
+      "name": "product_attr_to_products",
+      "schema": "",
+      "columns": {
+        "product_id": {
+          "name": "product_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "product_attr_id": {
+          "name": "product_attr_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "product_attr_to_products_product_id_products_id_fk": {
+          "name": "product_attr_to_products_product_id_products_id_fk",
+          "tableFrom": "product_attr_to_products",
+          "tableTo": "products",
+          "columnsFrom": [
+            "product_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "product_attr_to_products_product_attr_id_product_attributes_id_fk": {
+          "name": "product_attr_to_products_product_attr_id_product_attributes_id_fk",
+          "tableFrom": "product_attr_to_products",
+          "tableTo": "product_attributes",
+          "columnsFrom": [
+            "product_attr_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "product_attr_to_products_product_id_product_attr_id_pk": {
+          "name": "product_attr_to_products_product_id_product_attr_id_pk",
+          "columns": [
+            "product_id",
+            "product_attr_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.product_categories": {
       "name": "product_categories",
       "schema": "",
@@ -1182,6 +1257,66 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.product_cat_to_products": {
+      "name": "product_cat_to_products",
+      "schema": "",
+      "columns": {
+        "product_id": {
+          "name": "product_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "product_cat_id": {
+          "name": "product_cat_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "product_cat_to_products_product_id_products_id_fk": {
+          "name": "product_cat_to_products_product_id_products_id_fk",
+          "tableFrom": "product_cat_to_products",
+          "tableTo": "products",
+          "columnsFrom": [
+            "product_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "product_cat_to_products_product_cat_id_product_categories_id_fk": {
+          "name": "product_cat_to_products_product_cat_id_product_categories_id_fk",
+          "tableFrom": "product_cat_to_products",
+          "tableTo": "product_categories",
+          "columnsFrom": [
+            "product_cat_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "product_cat_to_products_product_id_product_cat_id_pk": {
+          "name": "product_cat_to_products_product_id_product_cat_id_pk",
+          "columns": [
+            "product_id",
+            "product_cat_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.product_medias": {
       "name": "product_medias",
       "schema": "",
@@ -1315,6 +1450,66 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.product_media_to_products": {
+      "name": "product_media_to_products",
+      "schema": "",
+      "columns": {
+        "product_id": {
+          "name": "product_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "product_media_id": {
+          "name": "product_media_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "product_media_to_products_product_id_products_id_fk": {
+          "name": "product_media_to_products_product_id_products_id_fk",
+          "tableFrom": "product_media_to_products",
+          "tableTo": "products",
+          "columnsFrom": [
+            "product_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "product_media_to_products_product_media_id_product_medias_id_fk": {
+          "name": "product_media_to_products_product_media_id_product_medias_id_fk",
+          "tableFrom": "product_media_to_products",
+          "tableTo": "product_medias",
+          "columnsFrom": [
+            "product_media_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "product_media_to_products_product_id_product_media_id_pk": {
+          "name": "product_media_to_products_product_id_product_media_id_pk",
+          "columns": [
+            "product_id",
+            "product_media_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -1588,16 +1783,10 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.order_items": {
-      "name": "order_items",
+    "public.order_to_products": {
+      "name": "order_to_products",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
         "order_id": {
           "name": "order_id",
           "type": "uuid",
@@ -1637,27 +1826,11 @@
           "default": "now()"
         }
       },
-      "indexes": {
-        "oit_order_id_fk_index": {
-          "name": "oit_order_id_fk_index",
-          "columns": [
-            {
-              "expression": "order_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
-        "order_items_order_id_orders_id_fk": {
-          "name": "order_items_order_id_orders_id_fk",
-          "tableFrom": "order_items",
+        "order_to_products_order_id_orders_id_fk": {
+          "name": "order_to_products_order_id_orders_id_fk",
+          "tableFrom": "order_to_products",
           "tableTo": "orders",
           "columnsFrom": [
             "order_id"
@@ -1668,9 +1841,9 @@
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "order_items_product_id_products_id_fk": {
-          "name": "order_items_product_id_products_id_fk",
-          "tableFrom": "order_items",
+        "order_to_products_product_id_products_id_fk": {
+          "name": "order_to_products_product_id_products_id_fk",
+          "tableFrom": "order_to_products",
           "tableTo": "products",
           "columnsFrom": [
             "product_id"
@@ -1682,16 +1855,16 @@
           "onUpdate": "cascade"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "order_items_id_unique": {
-          "name": "order_items_id_unique",
-          "nullsNotDistinct": false,
+      "compositePrimaryKeys": {
+        "order_to_products_order_id_product_id_pk": {
+          "name": "order_to_products_order_id_product_id_pk",
           "columns": [
-            "id"
+            "order_id",
+            "product_id"
           ]
         }
       },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -1712,8 +1885,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "note": {
-          "name": "note",
+        "note_id": {
+          "name": "note_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
@@ -1788,12 +1961,12 @@
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "orders_note_notes_id_fk": {
-          "name": "orders_note_notes_id_fk",
+        "orders_note_id_notes_id_fk": {
+          "name": "orders_note_id_notes_id_fk",
           "tableFrom": "orders",
           "tableTo": "notes",
           "columnsFrom": [
-            "note"
+            "note_id"
           ],
           "columnsTo": [
             "id"
@@ -1953,8 +2126,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "created_by": {
-          "name": "created_by",
+        "created_by_id": {
+          "name": "created_by_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
@@ -2067,12 +2240,12 @@
         }
       },
       "foreignKeys": {
-        "payment_providers_created_by_users_id_fk": {
-          "name": "payment_providers_created_by_users_id_fk",
+        "payment_providers_created_by_id_users_id_fk": {
+          "name": "payment_providers_created_by_id_users_id_fk",
           "tableFrom": "payment_providers",
           "tableTo": "users",
           "columnsFrom": [
-            "created_by"
+            "created_by_id"
           ],
           "columnsTo": [
             "id"
@@ -2118,8 +2291,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "note": {
-          "name": "note",
+        "note_id": {
+          "name": "note_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
@@ -2180,8 +2353,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "provider": {
-          "name": "provider",
+        "provider_id": {
+          "name": "provider_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
@@ -2252,12 +2425,12 @@
           "onDelete": "restrict",
           "onUpdate": "cascade"
         },
-        "transactions_note_notes_id_fk": {
-          "name": "transactions_note_notes_id_fk",
+        "transactions_note_id_notes_id_fk": {
+          "name": "transactions_note_id_notes_id_fk",
           "tableFrom": "transactions",
           "tableTo": "notes",
           "columnsFrom": [
-            "note"
+            "note_id"
           ],
           "columnsTo": [
             "id"
@@ -2278,12 +2451,12 @@
           "onDelete": "restrict",
           "onUpdate": "cascade"
         },
-        "transactions_provider_payment_providers_id_fk": {
-          "name": "transactions_provider_payment_providers_id_fk",
+        "transactions_provider_id_payment_providers_id_fk": {
+          "name": "transactions_provider_id_payment_providers_id_fk",
           "tableFrom": "transactions",
           "tableTo": "payment_providers",
           "columnsFrom": [
-            "provider"
+            "provider_id"
           ],
           "columnsTo": [
             "id"

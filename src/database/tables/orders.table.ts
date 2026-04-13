@@ -1,4 +1,4 @@
-import { pgTable, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, primaryKey } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 import { is_deleted, table_timestamps } from "./helper";
 import {
@@ -9,6 +9,8 @@ import {
 import { notesTable } from "./notes.table";
 import { productsTable } from "./products.table";
 import { v4 as uuidv4 } from "uuid";
+import { relations } from "drizzle-orm";
+import { transactionTable } from "./payments.table";
 
 export const ordersTable = pgTable(
   "orders",
@@ -18,7 +20,7 @@ export const ordersTable = pgTable(
       onDelete: "cascade",
       onUpdate: "cascade",
     }),
-    note: t.uuid().references(() => notesTable.id, {
+    note_id: t.uuid().references(() => notesTable.id, {
       onDelete: "cascade",
       onUpdate: "cascade",
     }),
@@ -36,10 +38,9 @@ export const ordersTable = pgTable(
   (table) => [t.index("ot_customer_id_fk_index").on(table.customer_id)]
 );
 
-export const orderItemsTable = pgTable(
-  "order_items",
+export const orderToProductsTable = pgTable(
+  "order_to_products",
   {
-    id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
     order_id: t.uuid().references(() => ordersTable.id, {
       onDelete: "cascade",
       onUpdate: "cascade",
@@ -51,5 +52,41 @@ export const orderItemsTable = pgTable(
     ...is_deleted,
     ...table_timestamps,
   },
-  (table) => [t.index("oit_order_id_fk_index").on(table.order_id)]
+  (table) => [primaryKey({ columns: [table.order_id, table.product_id] })]
+);
+
+// -- Relations
+export const ordersTableRelations = relations(ordersTable, ({ one, many }) => ({
+  customer: one(usersTable, {
+    fields: [ordersTable.customer_id],
+    references: [usersTable.id],
+  }),
+  billing: one(userBillingInformationsTable, {
+    fields: [ordersTable.billing_id],
+    references: [userBillingInformationsTable.id],
+  }),
+  shipping: one(userShippingInformationTable, {
+    fields: [ordersTable.shipping_id],
+    references: [userShippingInformationTable.id],
+  }),
+  note: one(notesTable, {
+    fields: [ordersTable.note_id],
+    references: [notesTable.id],
+  }),
+  transaction: one(transactionTable),
+  products: many(productsTable),
+}));
+
+export const orderToProductsTableRelations = relations(
+  orderToProductsTable,
+  ({ one }) => ({
+    order: one(ordersTable, {
+      fields: [orderToProductsTable.order_id],
+      references: [ordersTable.id],
+    }),
+    product: one(productsTable, {
+      fields: [orderToProductsTable.product_id],
+      references: [productsTable.id],
+    }),
+  })
 );

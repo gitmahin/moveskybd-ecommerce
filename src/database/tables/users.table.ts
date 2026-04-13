@@ -9,7 +9,9 @@ import {
 import { relations } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { notesTable } from "./notes.table";
-
+import { productsTable } from "./products.table";
+import { paymentProvidersTable, transactionTable } from "./payments.table";
+import { ordersTable } from "./orders.table";
 
 export const USER_ACCOUNT_STATUS_E = pgEnum(
   "user_account_status_enum",
@@ -24,7 +26,7 @@ export const usersTable = pgTable("users", {
   id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
   email: t.varchar({ length: 255 }).unique().notNull(),
   username: t.varchar({ length: 100 }).unique().notNull(),
-  password: t.varchar({length: 50}).notNull(),
+  password: t.varchar({ length: 50 }).notNull(),
   role: USER_ROLE_E().default("CUSTOMER").notNull(),
   account_status: USER_ACCOUNT_STATUS_E().default("NORMAL").notNull(),
   account_provider: USER_ACCOUNT_PROVIDER_E().default("MANUAL").notNull(),
@@ -121,7 +123,7 @@ export const userShippingInformationTable = pgTable(
     ...user_id_fk,
     label: t.varchar({ length: 100 }),
     value: t.varchar({ length: 100 }).notNull(),
-    customer_note: t.uuid().references(() => notesTable.id, {
+    customer_note_id: t.uuid().references(() => notesTable.id, {
       onDelete: "cascade",
       onUpdate: "cascade",
     }),
@@ -131,7 +133,12 @@ export const userShippingInformationTable = pgTable(
     ...is_deleted,
     ...table_timestamps,
   },
-  (table) => [t.index("ushipping_user_id_fk_index").on(table.user_id)]
+  (table) => [
+    t.index("ushipping_user_id_fk_index").on(table.user_id),
+    t
+      .uniqueIndex("ushipping_customer_note_id_fk_index")
+      .on(table.customer_note_id),
+  ]
 );
 
 // -- Relations
@@ -142,39 +149,55 @@ export const userProfileRelations = relations(userProfilesTable, ({ one }) => ({
   }),
 }));
 
-export const userAddressRelations = relations(userAddressesTable, ({ one }) => ({
-  user: one(usersTable, {
-    fields: [userAddressesTable.user_id],
-    references: [usersTable.id]
+export const userAddressRelations = relations(
+  userAddressesTable,
+  ({ one }) => ({
+    user: one(usersTable, {
+      fields: [userAddressesTable.user_id],
+      references: [usersTable.id],
+    }),
   })
-}))
-
+);
 
 export const userContactRelations = relations(userContactsTable, ({ one }) => ({
   user: one(usersTable, {
     fields: [userContactsTable.user_id],
-    references: [usersTable.id]
-  })
-}))
+    references: [usersTable.id],
+  }),
+}));
 
-export const userBillingInformationRelations = relations(userBillingInformationsTable, ({ one }) => ({
-  user: one(usersTable, {
-    fields: [userBillingInformationsTable.user_id],
-    references: [usersTable.id]
+export const userBillingInformationRelations = relations(
+  userBillingInformationsTable,
+  ({ one }) => ({
+    user: one(usersTable, {
+      fields: [userBillingInformationsTable.user_id],
+      references: [usersTable.id],
+    }),
   })
-}))
-export const userShippingInformationRelations = relations(userShippingInformationTable, ({ one }) => ({
-  user: one(usersTable, {
-    fields: [userShippingInformationTable.user_id],
-    references: [usersTable.id]
+);
+export const userShippingInformationRelations = relations(
+  userShippingInformationTable,
+  ({ one }) => ({
+    user: one(usersTable, {
+      fields: [userShippingInformationTable.user_id],
+      references: [usersTable.id],
+    }),
+    customer_note: one(notesTable, {
+      fields: [userShippingInformationTable.customer_note_id],
+      references: [notesTable.id],
+    }),
   })
-}))
+);
 
-export const userRelations = relations(usersTable, ({one, many}) => ({
+export const userRelations = relations(usersTable, ({ one, many }) => ({
   profile: one(userProfilesTable),
   contact: one(userContactsTable),
   address: one(userAddressesTable),
   billing: many(userBillingInformationsTable),
-  shipping: many(userShippingInformationTable)
-}))
-
+  shipping: many(userShippingInformationTable),
+  products: many(productsTable),
+  orders: many(ordersTable),
+  notes: many(notesTable),
+  transactions: many(transactionTable),
+  created_payment_providers: many(paymentProvidersTable),
+}));
