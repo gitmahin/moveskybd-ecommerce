@@ -1,15 +1,15 @@
-import { usersTable } from "@/database";
+import { userProfilesTable, usersTable } from "@/database";
 import { PgUserInsertType } from "@/database/tables/types";
 import { pgDb } from "@/lib";
 
 class UserDatabaseService {
-  async createUserAccount({
+  async InsertUserWithEmailPass({
     email,
     username,
     password,
     account_provider,
   }: PgUserInsertType) {
-    await pgDb
+    return await pgDb
       .insert(usersTable)
       .values({
         email,
@@ -17,9 +17,7 @@ class UserDatabaseService {
         password,
         account_provider,
       })
-      .then((result) => {
-        console.log(result);
-      });
+      .returning({ id: usersTable.id });
   }
 }
 

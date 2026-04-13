@@ -1,6 +1,6 @@
 "use client";
 import { observer } from "mobx-react";
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 import { FilterChkButton } from "./FilterChkButton";
 
 export const BrandFilterButton = observer(() => {

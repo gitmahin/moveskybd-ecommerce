@@ -1,4 +1,4 @@
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 import { observer } from "mobx-react";
 import React from "react";
 import { FilterChkButton } from "./FilterChkButton";

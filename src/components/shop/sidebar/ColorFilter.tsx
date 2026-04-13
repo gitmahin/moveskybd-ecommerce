@@ -2,7 +2,7 @@
 import { observer } from "mobx-react";
 import { FilterByCheckbox } from "./FilterByCheckbox";
 import { COLOR_FAMILIES } from "@/constants";
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 import { Circle } from "lucide-react";
 
 export const ColorFilter = observer(() => {

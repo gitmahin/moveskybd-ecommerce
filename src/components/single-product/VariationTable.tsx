@@ -14,7 +14,7 @@ import {
 } from "@/components/ui";
 import { Quantity } from "./Quantity";
 import Image from "next/image";
-import { productStore } from "@/services/stores";
+import { productStore } from "@/stores";
 import { getPriceDiscountValue } from "@/utils";
 import { observer } from "mobx-react";
 

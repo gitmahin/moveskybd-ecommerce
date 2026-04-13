@@ -8,7 +8,7 @@ import {
   Button,
   EmptyTitle,
 } from "@/components/ui";
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 
 import { FunnelX, PackageSearch, RefreshCcwIcon, Store } from "lucide-react";
 import { observer } from "mobx-react";

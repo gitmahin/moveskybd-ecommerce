@@ -1,7 +1,7 @@
 "use client";
 import { CustomECard } from "@/components";
 import { SHOP_PRODUCTS, SHOP_PRODUCTS_WITH_COUNTS } from "@/constants";
-import { shopBaseStore, shopFilterStore } from "@/services/stores";
+import { shopBaseStore, shopFilterStore } from "@/stores";
 import { ShopProductType } from "@/types/shop";
 import { observer } from "mobx-react";
 import { useSearchParams } from "next/navigation";

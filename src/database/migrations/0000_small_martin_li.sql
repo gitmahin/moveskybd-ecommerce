@@ -100,8 +100,8 @@ CREATE TABLE "users_shippping_infos" (
 CREATE TABLE "users" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"email" varchar(255) NOT NULL,
-	"username" varchar(100) NOT NULL,
-	"password" varchar(50) NOT NULL,
+	"username" varchar(50) NOT NULL,
+	"password" varchar(200) NOT NULL,
 	"role" "user_role_enum" DEFAULT 'CUSTOMER' NOT NULL,
 	"account_status" "user_account_status_enum" DEFAULT 'NORMAL' NOT NULL,
 	"account_provider" "user_account_provider" DEFAULT 'MANUAL' NOT NULL,

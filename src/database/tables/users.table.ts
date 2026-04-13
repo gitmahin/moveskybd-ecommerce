@@ -25,8 +25,8 @@ export const USER_ACCOUNT_PROVIDER_E = pgEnum(
 export const usersTable = pgTable("users", {
   id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
   email: t.varchar({ length: 255 }).unique().notNull(),
-  username: t.varchar({ length: 100 }).unique().notNull(),
-  password: t.varchar({ length: 50 }).notNull(),
+  username: t.varchar({ length: 50 }).unique().notNull(),
+  password: t.varchar({ length: 200 }).notNull(),
   role: USER_ROLE_E().default("CUSTOMER").notNull(),
   account_status: USER_ACCOUNT_STATUS_E().default("NORMAL").notNull(),
   account_provider: USER_ACCOUNT_PROVIDER_E().default("MANUAL").notNull(),

@@ -277,10 +277,9 @@ export const productVariationsTableRelations = relations(
   })
 );
 
-
-export const inventoryTableRelations = relations(inventoryTable, ({one}) =>({
+export const inventoryTableRelations = relations(inventoryTable, ({ one }) => ({
   product: one(productsTable, {
     fields: [inventoryTable.product_id],
-    references: [productsTable.id]
-  })
-}))
+    references: [productsTable.id],
+  }),
+}));

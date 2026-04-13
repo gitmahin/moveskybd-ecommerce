@@ -1,6 +1,6 @@
 "use client";
 import { BRANDS } from "@/constants";
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 import { observer } from "mobx-react";
 import { FilterByCheckbox } from "./FilterByCheckbox";
 export const BrandFilter = observer(() => {

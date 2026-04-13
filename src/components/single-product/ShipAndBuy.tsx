@@ -3,7 +3,7 @@ import { ChevronRight, MapPin, Truck } from "lucide-react";
 import React, { useEffect } from "react";
 import { Button, Label, Separator } from "../ui";
 import { observer } from "mobx-react";
-import { productStore } from "@/services/stores";
+import { productStore } from "@/stores";
 import { getPriceDiscountValue } from "@/utils";
 
 // -- It will be set from backend

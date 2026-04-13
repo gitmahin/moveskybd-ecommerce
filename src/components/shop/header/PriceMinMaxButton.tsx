@@ -7,7 +7,7 @@ import {
   ButtonGroupText,
 } from "@/components/ui";
 import { observer } from "mobx-react";
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 import { X } from "lucide-react";
 export const PriceMinMaxButton = observer(() => {
   if (

@@ -2,7 +2,7 @@
 import { observer } from "mobx-react";
 import { FilterByCheckbox } from "./FilterByCheckbox";
 import { SHIPPING_LOCATIONS } from "@/constants";
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 
 export const ShippingFilter = observer(() => {
   return (

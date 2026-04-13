@@ -9,7 +9,7 @@ import {
   Button,
   Separator,
 } from "@/components/ui";
-import { shopBaseStore, shopFilterStore } from "@/services/stores";
+import { shopBaseStore, shopFilterStore } from "@/stores";
 import { observer } from "mobx-react";
 import { BrandFilterButton } from "./BrandFilterButton";
 import { ShippingFilterButton } from "./ShippingFilterButton";

@@ -7,7 +7,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui";
-import { shopFilterStore } from "@/services/stores";
+import { shopFilterStore } from "@/stores";
 import { observer } from "mobx-react";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
