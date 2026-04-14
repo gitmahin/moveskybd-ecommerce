@@ -28,7 +28,7 @@ export type CreateUserWithEmailPassType = z.infer<
   typeof CreateUserWithEmailPassZodSchema
 >;
 
-
 export const UsernameZodSchema = z
   .string()
-  .max(50, { error: "Username must be at most 50 characters" }).lowercase({ error: "Username must be in lowercase" })
+  .max(50, { error: "Username must be at most 50 characters" })
+  .lowercase({ error: "Username must be in lowercase" });

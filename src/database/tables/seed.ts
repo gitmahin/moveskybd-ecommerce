@@ -42,9 +42,15 @@ async function run() {
     //   username: "gitmahin",
     // });
 
-    const data = await userService.getUserProfileViaUsername("gitmahin")
-    
-    console.log("Response:", data?.data, data?.error, data?.zod_errors, data?.type);
+    const data = await userService.getUserProfileViaUsername("gitmahin");
+
+    console.log(
+      "Response:",
+      data?.data,
+      data?.error,
+      data?.zod_errors,
+      data?.type
+    );
   } catch (err) {
     console.error("Critical Error:", err);
   } finally {
