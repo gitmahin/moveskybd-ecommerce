@@ -35,13 +35,16 @@ import { userService } from "@/services";
 // -- MSG_WARNING: Remove this. Currently testing
 async function run() {
   try {
-    const data = await userService.createUserWithEmailPass({
-      email: "nimahin25@gmail.com",
-      account_provider: "MANUAL",
-      password: "Mahin15006",
-      username: "gitmahin",
-    });
-    console.log("Response:", data.data, data.error, data.zod_errors, data.type);
+    // const data = await userService.createUserWithEmailPass({
+    //   email: "nimahin25@gmail.com",
+    //   account_provider: "MANUAL",
+    //   password: "Mahin15006",
+    //   username: "gitmahin",
+    // });
+
+    const data = await userService.getUserProfileViaUsername("gitmahin")
+    
+    console.log("Response:", data?.data, data?.error, data?.zod_errors, data?.type);
   } catch (err) {
     console.error("Critical Error:", err);
   } finally {

@@ -7,6 +7,7 @@ export const CreateUserWithEmailPassZodSchema = z.object({
     .string()
     .min(3, { error: "Username must be at least 3 characters" })
     .max(50, { error: "Username must be at most 50 characters" })
+    .lowercase({ error: "Username must be in lowercase" })
     .regex(/^[a-z0-9]+$/, {
       error:
         "Username can only contain lowercase letters and numbers (no special characters or spaces)",
@@ -26,3 +27,8 @@ export const CreateUserWithEmailPassZodSchema = z.object({
 export type CreateUserWithEmailPassType = z.infer<
   typeof CreateUserWithEmailPassZodSchema
 >;
+
+
+export const UsernameZodSchema = z
+  .string()
+  .max(50, { error: "Username must be at most 50 characters" }).lowercase({ error: "Username must be in lowercase" })

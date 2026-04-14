@@ -32,7 +32,8 @@ export const usersTable = pgTable("users", {
   account_provider: USER_ACCOUNT_PROVIDER_E().default("MANUAL").notNull(),
   is_verified: t.boolean().notNull().default(false),
   verify_expiry: t.timestamp(),
-  verify_code: t.varchar({ length: 8 }).unique(),
+  verify_code: t.varchar({ length: 8 }),
+  refresh_token: t.text().unique(),
   ...is_deleted,
   ...table_timestamps,
 });

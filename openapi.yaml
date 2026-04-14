@@ -31,6 +31,16 @@ paths:
     get:
       summary: Get user by their username.
       deprecated: false
+  # -- Creating user
+  /v1/user/create:
+    post:
+      summary: Create User 
+      deprecated: false
+  # -- Authenticate user 
+  /v1/user/auth:
+    get:  
+      summary: Authenticating User via accessToken and refreshToken
+      description: Get accessToken and validate. If invalid get refreshToken and validate With Redis. if valid renew accessToken and restart session.
   # -- Updating user & its related things
   /v1/user/{user_id}/profile/update:
     patch:
@@ -74,11 +84,11 @@ paths:
     get:
       summary: Get specific product by slug
       deprecated: false
-  /v1/product/{id}/attributes/get:
+  /v1/product/attributes/get:
     get:
       summary: Get all attributes
       deprecated: false
-  /v1/product/{id}/inventory/get:
+  /v1/product/inventory/get:
     get:
       deprecated: false
   # -- Creating product & its related things
@@ -89,13 +99,13 @@ paths:
   /v1/product/image/upload:
     post:
       deprecated: false
-  /v1/product/{id}/category/create:
+  /v1/product/category/create:
     post:
       deprecated: false
-  /v1/product/{id}/attributes/create:
+  /v1/product/attributes/create:
     post:
       deprecated: false
-  /v1/product/{id}/variation/create:
+  /v1/product/variation/create:
     post:
       deprecated: false
   # -- Updating product
