@@ -42,15 +42,12 @@ async function run() {
     //   username: "gitmahin",
     // });
 
-    const data = await userService.getUserProfileViaUsername("gitmahin");
+    const data = await userService.getUserProfileViaUsername({
+      username: "gitmahin",
+      id: "1458933d-09bd-42f2-8ffd-cd1a3cb49396",
+    });
 
-    console.log(
-      "Response:",
-      data?.data,
-      data?.error,
-      data?.zod_errors,
-      data?.type
-    );
+    console.log("Response:", data?.data, data?.error, data?.type);
   } catch (err) {
     console.error("Critical Error:", err);
   } finally {

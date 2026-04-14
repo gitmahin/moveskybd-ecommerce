@@ -1,41 +1,40 @@
 import {
-  CreateUserWithEmailPassType,
-  CreateUserWithEmailPassZodSchema,
-  UsernameZodSchema,
+  CreateUserWithEmailPassPayloadType,
+  GetUserProfileViaUsernamePayloadType,
 } from "@/zod/database";
 import bcrypt from "bcryptjs";
 import { logger, pgDb } from "@/lib";
 import { ServiceResponseType } from "./type";
-import { z } from "zod/v4";
 import { userProfilesTable, usersTable } from "@/database";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { PgUserProfileSelectType } from "@/database/tables/types";
-import { returnServiceResponse } from "./utils";
+import { serviceResponse } from "./utils";
 
 class UserService {
   /**
-   * Creates a new user account with email and password validation.
+   * Creates a new user account with email and password authentication.
    *
-   * Validates the input payload using Zod, hashes the password with bcrypt,
-   * and inserts the new user record into the database.
+   * Validates the input payload, checks for existing users, hashes the password
+   * with bcrypt, and inserts the new user record into the database.
    *
-   * @param data - The user creation payload.
-   * @param data.email - Valid email address, max 255 characters.
-   * @param data.username - Lowercase alphanumeric only, between 3–50 characters.
-   * @param data.password - Between 8–50 characters, must contain at least one uppercase letter, one lowercase letter, and one number.
-   * @param data.account_provider - Must be a valid value from `USER_ACCOUNT_PROVIDER_VALUES`.
+   * @param payload - The user creation payload.
+   * @param payload.email - Valid email address, max 255 characters, required.
+   * @param payload.username - Lowercase alphanumeric only, between 3–50 characters, required.
+   * @param payload.password - Between 8–50 characters, must contain at least one uppercase letter, one lowercase letter, and one number, required.
+   * @param payload.account_provider - Must be a valid value from `USER_ACCOUNT_PROVIDER_VALUES`, required.
    *
    * @returns A promise that resolves to:
    * - `{ type: "SUCCESS", data: { id: string }[] }` — on successful user creation.
-   * - `{ type: "PAYLOADERROR", zod_errors: FlattenedError }` — if input validation fails.
-   * - `{ type: "ERROR", error: string }` — if the user ID is not returned or an unexpected error occurs.
+   * - `{ type: "ERROR", error: "User already exists!" }` — if the email is already registered.
+   * - `{ type: "ERROR", error: "User id not returned!" }` — if the database did not return a user ID.
+   * - `{ type: "ERROR", error: "Error creating user!" }` — if an unexpected error occurs.
    *
    * @example
    * const result = await createUserWithEmailPass({
    *   email: "john@example.com",
    *   password: "SecurePass1",
    *   username: "john123",
-   *   account_provider: "email",
+   *   account_provider: "MANUAL",
    * });
    *
    * if (result.type === "SUCCESS") {
@@ -43,23 +42,11 @@ class UserService {
    * }
    */
   async createUserWithEmailPass(
-    data: CreateUserWithEmailPassType
+    payload: CreateUserWithEmailPassPayloadType
   ): Promise<ServiceResponseType<{ id: string }[]>> {
     try {
-      // -- Zod validate data payload
-      const validatePayload = CreateUserWithEmailPassZodSchema.safeParse(data);
-
-      // -- Return error if invalid payload
-      if (validatePayload.error) {
-        return {
-          type: "PAYLOADERROR",
-          zod_errors: z.flattenError(validatePayload.error),
-        };
-      }
-
       // -- Extract valid data from zod
-      const safePayload = validatePayload.data;
-      const { email, account_provider, password, username } = safePayload;
+      const { email, account_provider, password, username } = payload;
 
       // -- Hash password
       const salt = await bcrypt.genSalt(10);
@@ -115,45 +102,43 @@ class UserService {
   }
 
   /**
-   * Retrieves a user's profile by their username.
+   * Retrieves a user's profile by their username and ID.
    *
-   * Validates the username, then queries the database via a prepared statement
-   * joining `usersTable` and `userProfilesTable`.
+   * Queries the database via a prepared statement joining `usersTable`
+   * and `userProfilesTable` matching both username and ID.
    *
-   * @param username - The username to look up. Must be lowercase alphanumeric, between 3–50 characters.
+   * @param payload - The lookup payload.
+   * @param payload.id - Valid UUID v4, required.
+   * @param payload.username - Lowercase string, max 50 characters, required.
    *
    * @returns A promise that resolves to:
    * - `{ type: "SUCCESS", data: { profile: PgUserProfileSelectType } }` — if the profile is found.
-   * - `{ type: "PAYLOADERROR", zod_errors: FlattenedError }` — if the username fails validation.
-   * - `{ type: "ERROR", error: string }` — if the account exists but has no associated profile, or a database error occurs.
+   * - `{ type: "ERROR", error: "User not found!" }` — if no user matches the username and ID.
+   * - `{ type: "ERROR", error: "Account exists, but the associated profile is missing!" }` — if the user exists but has no profile.
+   * - `{ type: "ERROR", error: "Error getting user profile." }` — if an unexpected error occurs.
    *
    * @example
-   * const result = await getUserProfileViaUsername("john123");
+   * const result = await getUserProfileViaUsername({ username: "john123", id: "550e8400-e29b-41d4-a716-446655440000" });
    *
    * if (result.type === "SUCCESS") {
    *   console.log("User profile:", result.data.profile);
    * }
    */
-  async getUserProfileViaUsername(username: string): Promise<
+  async getUserProfileViaUsername(
+    payload: GetUserProfileViaUsernamePayloadType
+  ): Promise<
     ServiceResponseType<{
       profile: PgUserProfileSelectType | null;
     }>
   > {
-    // -- Zod validate username payload
-    const validatePayload = UsernameZodSchema.safeParse(username);
-
-    // -- Return error if invalid payload
-    if (validatePayload.error) {
-      return returnServiceResponse(
-        "PAYLOADERROR",
-        z.flattenError(validatePayload.error)
-      );
-    }
+    // -- Extract valid data from zod
+    const { username, id } = payload;
 
     try {
       // -- Get user profile from database
       const userProfile = await pgDb
         .select({
+          id: usersTable.id,
           profile: userProfilesTable,
         })
         .from(usersTable)
@@ -161,24 +146,31 @@ class UserService {
           userProfilesTable,
           eq(userProfilesTable.user_id, usersTable.id)
         )
-        .where(eq(usersTable.username, sql.placeholder("username")))
+        .where(
+          and(
+            eq(usersTable.username, sql.placeholder("username")),
+            eq(usersTable.id, sql.placeholder("id"))
+          )
+        )
         .prepare("pGetUserProfileViaUsername");
 
       // -- Execute prepared statement
-      const result = await userProfile.execute({ username });
+      const result = await userProfile.execute({ username, id });
 
       // -- If profile found return profile data, else return error
-      if (result[0].profile) {
-        return returnServiceResponse("SUCCESS", result[0]);
-      } else {
-        return returnServiceResponse(
+      if (!result[0]?.id) {
+        return serviceResponse("ERROR", "User not found!");
+      } else if (!result[0]?.profile) {
+        return serviceResponse(
           "ERROR",
           "Account exists, but the associated profile is missing!"
         );
       }
+
+      return serviceResponse("SUCCESS", result[0]);
     } catch (error) {
       logger.error(error);
-      return returnServiceResponse("ERROR", "Error getting user profile.");
+      return serviceResponse("ERROR", "Error getting user profile.");
     }
   }
 }

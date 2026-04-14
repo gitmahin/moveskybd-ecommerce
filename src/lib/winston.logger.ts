@@ -63,4 +63,18 @@ const LoggerOptions: LoggerOptionsType = {
   transports: [new transports.Console()],
 };
 
+/**
+ * Custom Winston logger instance with extended log levels and colorized output.
+ *
+ * Extends the default npm log levels with a `success` level and applies
+ * custom colors for each level. Output format varies by environment:
+ * - **Development** — `HH:mm:ss` timestamp
+ * - **Production** — `DD-MM-YYYY HH:mm:ss` timestamp
+ *
+ * @example
+ * logger.info("Server started", { port: 3000 });
+ * logger.error("Something went wrong", { code: 500 });
+ * logger.warn("Deprecation warning");
+ * logger.log("success", "User created successfully");
+ */
 export const logger = createLogger(LoggerOptions) as CustomLoggerType;

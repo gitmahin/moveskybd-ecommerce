@@ -1,38 +1,28 @@
 import { ServiceResponseType } from "./type";
 type ServiceResponseTypeKey = ServiceResponseType["type"];
 
-export function returnServiceResponse<T>(
+export function serviceResponse<T>(
   type: "SUCCESS",
   data: T
 ): ServiceResponseType<T>;
-export function returnServiceResponse(
+export function serviceResponse(
   type: "ERROR",
   error: string
 ): ServiceResponseType;
-export function returnServiceResponse(
-  type: "PAYLOADERROR",
-  zod_errors: unknown
-): ServiceResponseType;
-export function returnServiceResponse<T>(
+
+export function serviceResponse<T>(
   type: ServiceResponseTypeKey,
-  dataOrErrorOrZodErrors: T | string | unknown
+  dataOrError: T | string | unknown
 ): ServiceResponseType<T> {
   if (type === "SUCCESS") {
     return {
       type: "SUCCESS",
-      data: dataOrErrorOrZodErrors as T,
-    };
-  }
-
-  if (type === "PAYLOADERROR") {
-    return {
-      type: "PAYLOADERROR",
-      zod_errors: dataOrErrorOrZodErrors,
+      data: dataOrError as T,
     };
   }
 
   return {
     type: "ERROR",
-    error: dataOrErrorOrZodErrors as string,
+    error: dataOrError as string,
   };
 }
