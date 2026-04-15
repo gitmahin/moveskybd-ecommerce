@@ -1,4 +1,3 @@
-
 import { BaseConfig, DB_CONNECTION_URI } from "@/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import * as schema from "@/database";

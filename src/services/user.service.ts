@@ -1,8 +1,4 @@
-import {
-
-  GetUserProfileViaUsernamePayloadType,
-
-} from "@/zod/database";
+import { GetUserProfileViaUsernamePayloadType } from "@/zod/database";
 
 import { logger, pgDb } from "@/lib";
 import { ServiceResponseType } from "./type";
@@ -11,7 +7,7 @@ import { and, eq, sql } from "drizzle-orm";
 import { PgUserProfileSelectType } from "@/database/tables/types";
 import { serviceResponse } from "./utils";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import { CookieService } from "./cookie.service";
 
 class UserService {
@@ -89,17 +85,35 @@ class UserService {
     }
   }
 
-  async createJWTAuthCookies(payloadForAccessToken: any, payloadForRefreshToken: any) {
-    const cookieStore = await cookies()
+  async createJWTAuthCookies(
+    payloadForAccessToken: any,
+    payloadForRefreshToken: any
+  ) {
+    const cookieStore = await cookies();
     // -- Set cookies
-    const accessToken = jwt.sign(payloadForAccessToken, String(process.env.JWT_AUTH_SECRET), { expiresIn: "5m" })
+    const accessToken = jwt.sign(
+      payloadForAccessToken,
+      String(process.env.JWT_AUTH_SECRET),
+      { expiresIn: "5m" }
+    );
     // Store only id in refreshToken
-    const refreshToken = jwt.sign(payloadForRefreshToken, String(process.env.JWT_AUTH_SECRET), { expiresIn: "30d" })
-    cookieStore.set(CookieService.ACCESS_TOKEN.name, accessToken, CookieService.ACCESS_TOKEN.cookie)
-    cookieStore.set(CookieService.REFRESH_TOKEN.name, refreshToken, CookieService.REFRESH_TOKEN.cookie)
-    return cookieStore
+    const refreshToken = jwt.sign(
+      payloadForRefreshToken,
+      String(process.env.JWT_AUTH_SECRET),
+      { expiresIn: "30d" }
+    );
+    cookieStore.set(
+      CookieService.ACCESS_TOKEN.name,
+      accessToken,
+      CookieService.ACCESS_TOKEN.cookie
+    );
+    cookieStore.set(
+      CookieService.REFRESH_TOKEN.name,
+      refreshToken,
+      CookieService.REFRESH_TOKEN.cookie
+    );
+    return cookieStore;
   }
-
 }
 
 export const userService = new UserService();

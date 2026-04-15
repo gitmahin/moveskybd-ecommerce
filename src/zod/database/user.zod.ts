@@ -25,7 +25,7 @@ export const CreateUserWithEmailPassZodSchema = z.object({
       error:
         "Password must contain at least one uppercase letter, one lowercase letter, and one number",
     })
-    .nonempty({ error: "password is required" })
+    .nonempty({ error: "password is required" }),
 });
 export type CreateUserWithEmailPassPayloadType = z.infer<
   typeof CreateUserWithEmailPassZodSchema
@@ -50,11 +50,15 @@ export const LoginUserManualMethodZodSchema = z.object({
     .email()
     .max(255, { error: "Email must be at most 255 characters" })
     .nonempty({ error: "email is required" }),
-  password: z.string().max(50, { error: "Password must be at most 50 characters" }).nonempty({ error: "password is required" }),
+  password: z
+    .string()
+    .max(50, { error: "Password must be at most 50 characters" })
+    .nonempty({ error: "password is required" }),
   username: z
     .string()
     .max(50, { error: "Username must be at most 50 characters" })
     .nonempty({ error: "username is required" }),
-
-})
-export type LoginUserManualMethodPayloadType = z.infer<typeof LoginUserManualMethodZodSchema>
+});
+export type LoginUserManualMethodPayloadType = z.infer<
+  typeof LoginUserManualMethodZodSchema
+>;

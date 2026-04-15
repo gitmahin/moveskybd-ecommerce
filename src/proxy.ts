@@ -1,15 +1,14 @@
-
-import { NextResponse, type NextRequest } from 'next/server'
-import { pgDb } from './lib';
-import { usersTable } from './database';
-import { eq } from 'drizzle-orm';
+import { NextResponse, type NextRequest } from "next/server";
+import { pgDb } from "./lib";
+import { usersTable } from "./database";
+import { eq } from "drizzle-orm";
 
 export async function proxy(request: NextRequest) {
   const res = NextResponse.next();
 
-  const refreshToken = request.cookies.get('refreshToken');
-  const accessToken = request.cookies.get('accessToken');
-  console.log("session is here", accessToken, refreshToken)
+  const refreshToken = request.cookies.get("refreshToken");
+  const accessToken = request.cookies.get("accessToken");
+  console.log("session is here", accessToken, refreshToken);
 
   /**
    * Start session via user on signin
@@ -38,5 +37,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/auth/:path*', '/dashboard/:path*', '/page-1', '/page-2']
-}
+  matcher: ["/auth/:path*", "/dashboard/:path*", "/page-1", "/page-2"],
+};

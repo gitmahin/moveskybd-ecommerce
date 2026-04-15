@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default function SignupPage() {
   const handleCreateNewUser = async () => {
-    console.log("creating account")
+    console.log("creating account");
     await axios.post("http://localhost:3001/api/v1/user/create", {
       email: "nimahin25@gmail.com",
       password: "Mahin15006",

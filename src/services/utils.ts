@@ -21,13 +21,13 @@ export function serviceResponse<T>(
     return {
       type: "SUCCESS",
       data: dataOrError as T,
-      status
+      status,
     };
   }
 
   return {
     type: "ERROR",
     error: dataOrError as string,
-    status
+    status,
   };
 }
