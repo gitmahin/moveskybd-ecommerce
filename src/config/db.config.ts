@@ -1,3 +1,4 @@
+import "dotenv/config"
 type PostgresConfigType = {
   HOST: string;
 

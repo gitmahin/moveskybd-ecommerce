@@ -31,31 +31,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { NOTE_PRIVACY_TYPE_VALUES, ROLE_VALUES } from "./constants";
 import { userService } from "@/services";
-
-// -- MSG_WARNING: Remove this. Currently testing
-async function run() {
-  try {
-    // const data = await userService.createUserWithEmailPass({
-    //   email: "nimahin25@gmail.com",
-    //   account_provider: "MANUAL",
-    //   password: "Mahin15006",
-    //   username: "gitmahin",
-    // });
-
-    const data = await userService.getUserProfileViaUsername({
-      username: "gitmahin",
-      id: "1458933d-09bd-42f2-8ffd-cd1a3cb49396",
-    });
-
-    console.log("Response:", data?.data, data?.error, data?.type);
-  } catch (err) {
-    console.error("Critical Error:", err);
-  } finally {
-    process.exit(0);
-  }
-}
-
-run();
+import axios from "axios";
 
 const main = async () => {
   // Create users
@@ -224,13 +200,12 @@ const main = async () => {
   );
 };
 
-// -- MSG_WARNING: Uncomment this
-// main()
-//   .then(() => {
-//     console.log("Seed complete ✅");
-//     process.exit(0);
-//   })
-//   .catch((err) => {
-//     console.error("Seed failed ⚠️", err);
-//     process.exit(1);
-//   });
+main()
+  .then(() => {
+    console.log("Seed complete ✅");
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error("Seed failed ⚠️", err);
+    process.exit(1);
+  });

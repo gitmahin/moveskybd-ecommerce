@@ -1,6 +1,7 @@
 import { USER_ACCOUNT_PROVIDER_VALUES } from "@/database/tables/constants";
 import { z } from "zod/v4";
 
+// -- Api Payload: Account Create - Manual Method
 export const CreateUserWithEmailPassZodSchema = z.object({
   email: z
     .email()
@@ -24,15 +25,13 @@ export const CreateUserWithEmailPassZodSchema = z.object({
       error:
         "Password must contain at least one uppercase letter, one lowercase letter, and one number",
     })
-    .nonempty({ error: "password is required" }),
-  account_provider: z.enum(USER_ACCOUNT_PROVIDER_VALUES, {
-    error: "Invalid user role",
-  }),
+    .nonempty({ error: "password is required" })
 });
 export type CreateUserWithEmailPassPayloadType = z.infer<
   typeof CreateUserWithEmailPassZodSchema
 >;
 
+// -- Api Payload: Get profile via username
 export const GetUserProfileViaUsernameZodSchema = z.object({
   id: z.uuidv4({ error: "Invalid id" }).nonempty({ error: "id is required" }),
   username: z
@@ -44,3 +43,18 @@ export const GetUserProfileViaUsernameZodSchema = z.object({
 export type GetUserProfileViaUsernamePayloadType = z.infer<
   typeof GetUserProfileViaUsernameZodSchema
 >;
+
+// -- Api Payload: Login User - Manual Method
+export const LoginUserManualMethodZodSchema = z.object({
+  email: z
+    .email()
+    .max(255, { error: "Email must be at most 255 characters" })
+    .nonempty({ error: "email is required" }),
+  password: z.string().max(50, { error: "Password must be at most 50 characters" }).nonempty({ error: "password is required" }),
+  username: z
+    .string()
+    .max(50, { error: "Username must be at most 50 characters" })
+    .nonempty({ error: "username is required" }),
+
+})
+export type LoginUserManualMethodPayloadType = z.infer<typeof LoginUserManualMethodZodSchema>

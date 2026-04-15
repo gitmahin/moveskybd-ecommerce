@@ -24,7 +24,7 @@ type AuthCompPropsType = {
   showNameInput?: boolean;
   showConfirmPassInput?: boolean;
   authType: "login" | "signup";
-  onSubmit?: () => void;
+  onSubmit: () => void;
   reversedAuthPath: string;
 };
 
@@ -38,11 +38,7 @@ export const AuthComp = ({
   reversedAuthPath,
 }: AuthCompPropsType) => {
   const handleSubmit = () => {
-    if (onsubmit) {
-      onSubmit?.();
-    } else {
-      throw new Error("onSubmit function provided but not called");
-    }
+    onSubmit();
   };
   const router = useRouter();
   return (
@@ -153,7 +149,7 @@ export const AuthComp = ({
           {authType == "login" && "New here"}
           {authType == "signup" && "Already have an account?"}{" "}
           <Link
-            href={`${reversedAuthPath}`}
+            href={`/auth/${reversedAuthPath}`}
             className="hover:underline text-blue-500"
           >
             {authType == "login" && "Sign up"}

@@ -37,10 +37,10 @@ paths:
       summary: Create User 
       deprecated: false
   # -- Authenticate user 
-  /v1/user/auth:
+  /v1/user/login:
     get:  
-      summary: Authenticating User via accessToken and refreshToken
-      description: Get accessToken and validate. If invalid get refreshToken and validate With Redis. if valid renew accessToken and restart session.
+      summary: Login User via matching credentials
+      
   # -- Updating user & its related things
   /v1/user/{user_id}/profile/update:
     patch:

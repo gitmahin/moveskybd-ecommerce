@@ -108,6 +108,7 @@ CREATE TABLE "users" (
 	"is_verified" boolean DEFAULT false NOT NULL,
 	"verify_expiry" timestamp,
 	"verify_code" varchar(8),
+	"refresh_token" text,
 	"is_deleted" boolean DEFAULT false NOT NULL,
 	"deleted_at" timestamp,
 	"updated_at" timestamp,
@@ -115,7 +116,7 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_id_unique" UNIQUE("id"),
 	CONSTRAINT "users_email_unique" UNIQUE("email"),
 	CONSTRAINT "users_username_unique" UNIQUE("username"),
-	CONSTRAINT "users_verify_code_unique" UNIQUE("verify_code")
+	CONSTRAINT "users_refresh_token_unique" UNIQUE("refresh_token")
 );
 --> statement-breakpoint
 CREATE TABLE "inventory" (

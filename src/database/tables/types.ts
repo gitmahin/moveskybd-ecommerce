@@ -14,7 +14,7 @@ import {
   productCategoriesTable,
   productVariationsTable,
 } from "./products.table";
-import { ordersTable, orderItemsTable } from "./orders.table";
+import { ordersTable, orderToProductsTable } from "./orders.table";
 import { transactionTable, paymentProvidersTable } from "./payments.table";
 import { notesTable } from "./notes.table";
 
@@ -62,11 +62,11 @@ export type PgProductVariationInsertType =
 
 // -- Order Select Types
 export type PgOrderSelectType = typeof ordersTable.$inferSelect;
-export type PgOrderItemSelectType = typeof orderItemsTable.$inferSelect;
+export type PgOrderItemSelectType = typeof orderToProductsTable.$inferSelect;
 
 // -- Order Insert Types
 export type PgOrderInsertType = typeof ordersTable.$inferInsert;
-export type PgOrderItemInsertType = typeof orderItemsTable.$inferInsert;
+export type PgOrderItemInsertType = typeof orderToProductsTable.$inferInsert;
 
 // -- Payment Select Types
 export type PgTransactionSelectType = typeof transactionTable.$inferSelect;
