@@ -49,6 +49,7 @@ const CustomLoggerFormat = format.printf(
 const LoggerOptions: LoggerOptionsType = {
   level: "info",
   levels: customLevels.levels,
+  silent: process.env.NODE_ENV !== "development",
   format: format.combine(
     format.timestamp({
       format:

@@ -18,7 +18,7 @@ export default function LoginPage() {
       desc="Welcome back to MoveSky"
       authType="login"
       reversedAuthPath="/sign-up"
-      onSubmit={handleLoginUser}
+      onSubmit={ handleLoginUser}
     />
   );
 }
