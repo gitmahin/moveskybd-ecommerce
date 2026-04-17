@@ -12,6 +12,13 @@ import { v4 as uuidv4 } from "uuid";
 import { relations } from "drizzle-orm";
 import { transactionTable } from "./payments.table";
 
+/**
+ * Table for storing customer orders.
+ * 
+ * Tracks the customer, associated billing and shipping information,
+ * and links to an optional internal or customer note.
+ * Includes soft-delete support and standard timestamps.
+ */
 export const ordersTable = pgTable(
   "orders",
   {
@@ -38,6 +45,12 @@ export const ordersTable = pgTable(
   (table) => [t.index("ot_customer_id_fk_index").on(table.customer_id)]
 );
 
+/**
+ * Junction table for the many-to-many relationship between orders and products.
+ * 
+ * Maps which products belong to which orders.
+ * Includes soft-delete support and standard timestamps for each line item.
+ */
 export const orderToProductsTable = pgTable(
   "order_to_products",
   {
@@ -56,6 +69,11 @@ export const orderToProductsTable = pgTable(
 );
 
 // -- Relations
+/**
+ * Defines the relationships for the `ordersTable`.
+ * Connects an order to its customer, billing/shipping addresses,
+ * notes, transactions, and the list of products included.
+ */
 export const ordersTableRelations = relations(ordersTable, ({ one, many }) => ({
   customer: one(usersTable, {
     fields: [ordersTable.customer_id],
@@ -77,6 +95,10 @@ export const ordersTableRelations = relations(ordersTable, ({ one, many }) => ({
   products: many(productsTable),
 }));
 
+/**
+ * Defines the relationships for the `orderToProductsTable`.
+ * Links the junction table entries back to their respective order and product.
+ */
 export const orderToProductsTableRelations = relations(
   orderToProductsTable,
   ({ one }) => ({

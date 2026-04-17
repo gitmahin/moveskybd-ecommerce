@@ -4,11 +4,18 @@ import type { LoggerOptions as LoggerOptionsType, Logger } from "winston";
 import { createLogger, format, transports, addColors } from "winston";
 import { npm } from "winston/lib/winston/config";
 
-type LogMetadata = {
+/**
+ * Represents additional metadata that can be attached to a log entry.
+ */
+export type LogMetadata = {
   [key: string]: any;
 };
 
+/**
+ * Extended Winston Logger interface supporting custom levels and metadata.
+ */
 type CustomLoggerType = {
+  /** Logs a message with a specific custom level and optional metadata. */
   log: (
     level: keyof typeof customLevels.levels,
     message: string,
@@ -32,11 +39,20 @@ const customLevels = {
   },
 };
 
+/**
+ * Available log levels for the custom logger.
+ */
 export type CustomLogLevels = keyof typeof customLevels.levels;
+/**
+ * Available log colors for the custom logger.
+ */
 export type CustomLogColors = keyof typeof customLevels.colors;
 
 addColors(customLevels.colors);
 
+/**
+ * Custom format for console output, including timestamps, levels, and inspected metadata.
+ */
 const CustomLoggerFormat = format.printf(
   ({ level, message, timestamp, ...meta }) => {
     const metaData = Object.keys(meta).length
@@ -46,6 +62,9 @@ const CustomLoggerFormat = format.printf(
   }
 );
 
+/**
+ * Configuration options for the Winston logger instance.
+ */
 const LoggerOptions: LoggerOptionsType = {
   level: "info",
   levels: customLevels.levels,

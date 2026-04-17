@@ -35,6 +35,7 @@ class UserService {
    *   console.log("User profile:", result.data.profile);
    * }
    */
+  // -- MSG_WARNING: Remove this method
   async getUserProfileViaUsername(
     payload: GetUserProfileViaUsernamePayloadType
   ): Promise<
@@ -86,6 +87,18 @@ class UserService {
     }
   }
 
+  /**
+   * Generates and sets JWT authentication cookies (Access and Refresh tokens).
+   * 
+   * Signs the provided payloads using the `JWT_AUTH_SECRET` and stores them in the 
+   * client's cookies using configurations defined in {@link CookieService}.
+   * 
+   * @param payloadForAccessToken - Data to be encrypted in the short-lived access token.
+   * @param payloadForRefreshToken - Data (typically just the user ID) for the long-lived refresh token.
+   * 
+   * @returns A promise that resolves to the `ReadonlyRequestCookies` object after setting the cookies.
+   * @throws Will throw an error if `JWT_AUTH_SECRET` is not defined in environment variables.
+   */
   async createJWTAuthCookies(
     payloadForAccessToken: JWTEncryptedUserAuthData,
     payloadForRefreshToken: { id: JWTEncryptedUserAuthData["id"] }

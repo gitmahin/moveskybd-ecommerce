@@ -25,6 +25,13 @@ export const TRANSACTION_STATUS_E = pgEnum(
   TRANSACTION_STATUS_VALUES
 );
 
+/**
+ * Table for storing payment provider configurations.
+ * 
+ * Contains credentials and endpoint URLs for various payment gateways
+ * (e.g., PayPal, SSLCommerz). Tracks setup status and the admin who
+ * configured the provider.
+ */
 export const paymentProvidersTable = pgTable(
   "payment_providers",
   {
@@ -51,6 +58,13 @@ export const paymentProvidersTable = pgTable(
   (table) => [t.index("pp_brand_fk_index").on(table.brand)]
 );
 
+/**
+ * Table for tracking financial transactions.
+ * 
+ * Records payment attempts, amounts, statuses, and links them to
+ * specific orders, users, and payment providers. Includes metadata
+ * for provider-specific response data.
+ */
 export const transactionTable = pgTable(
   "transactions",
   {
@@ -89,6 +103,10 @@ export const transactionTable = pgTable(
 );
 
 // -- Relations
+/**
+ * Defines the relationships for the `paymentProvidersTable`.
+ * Connects a provider to its creator and the history of transactions processed through it.
+ */
 export const paymentProvidersTableRelations = relations(
   paymentProvidersTable,
   ({ one, many }) => ({
@@ -100,6 +118,10 @@ export const paymentProvidersTableRelations = relations(
   })
 );
 
+/**
+ * Defines the relationships for the `transactionTable`.
+ * Connects a transaction to its associated order, user, payment provider, and optional note.
+ */
 export const transactionTableRelations = relations(
   transactionTable,
   ({ one, many }) => ({

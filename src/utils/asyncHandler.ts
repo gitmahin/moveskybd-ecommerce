@@ -10,6 +10,24 @@ type RouteHandler<T = null> = (
   request: NextRequest
 ) => Promise<CustomApiResponse<T>>;
 
+/**
+ * A higher-order function for Next.js API route handlers to manage asynchronous operations and errors.
+ * 
+ * This wrapper catches any errors thrown within the handler and ensures they are returned
+ * as a standardized JSON response using the {@link ApiError} class. It also handles
+ * logging and differentiates between production and development error details.
+ * 
+ * @template T - The type of the data payload in the response.
+ * @param requestHandler - The asynchronous function containing the route logic.
+ * @returns A function that accepts a `NextRequest` and returns a `Promise<NextResponse>`.
+ * 
+ * @example
+ * export const GET = asyncHandler(async (req) => {
+ *   const data = await fetchData();
+ *   if (!data) throw new ApiError(404, "Not Found");
+ *   return ApiResponse("Success", 200, data);
+ * });
+ */
 export const asyncHandler = <T = null>(requestHandler: RouteHandler<T>) => {
   return async (request: NextRequest) => {
     return Promise.resolve(requestHandler(request))

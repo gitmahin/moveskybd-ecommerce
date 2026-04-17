@@ -13,6 +13,13 @@ export const NOTE_PRIVACY_TYPE_E = pgEnum(
   NOTE_PRIVACY_TYPE_VALUES
 );
 
+/**
+ * Table for storing various types of notes within the system.
+ * 
+ * Used for customer shipping notes, order-specific notes, and transaction notes.
+ * Supports privacy levels (PUBLIC/PRIVATE) and role-based access control,
+ * tracking the creator and timestamps for each entry.
+ */
 export const notesTable = pgTable("notes", {
   id: t.uuid().primaryKey().notNull().unique().$defaultFn(uuidv4),
   privacy_type: NOTE_PRIVACY_TYPE_E().default("PRIVATE").notNull(),
@@ -27,6 +34,10 @@ export const notesTable = pgTable("notes", {
   ...table_timestamps,
 });
 
+/**
+ * Defines the relationships for the `notesTable`.
+ * Connects notes to shipping information, orders, transactions, and the creator (user).
+ */
 export const notesTableRelations = relations(notesTable, ({ one }) => ({
   user_shipping_info: one(userShippingInformationTable),
   order_note: one(ordersTable),

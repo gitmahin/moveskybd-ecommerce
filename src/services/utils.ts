@@ -1,3 +1,4 @@
+// MSG_WARNING: Deprecated | Codebase formatted with updated code. Don't Use this pattern in Nextjs
 import { ServiceResponseType } from "./type";
 type ServiceResponseTypeKey = ServiceResponseType["type"];
 

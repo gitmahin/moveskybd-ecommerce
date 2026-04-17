@@ -30,6 +30,13 @@ export const PRODUCT_STOCK_STATUS_E = pgEnum(
 );
 export type ProductIndetifiersType = "GTIN" | "UPC" | "EAN" | "ISBN";
 
+/**
+ * Table for storing core product information.
+ * 
+ * Tracks the product name, slug for SEO-friendly URLs, and its publication status.
+ * Links to the admin user who created the entry.
+ * Includes soft-delete support and standard timestamps.
+ */
 export const productsTable = pgTable(
   "products",
   {
@@ -57,6 +64,13 @@ export const product_id_fk = {
   }),
 };
 
+/**
+ * Table for storing product media assets (images and videos).
+ * 
+ * Contains metadata like title, description, and source URL.
+ * Tracks whether a specific media item is the primary thumbnail for a product.
+ * Includes soft-delete support and standard timestamps.
+ */
 export const productMediasTable = pgTable(
   "product_medias",
   {
@@ -74,6 +88,13 @@ export const productMediasTable = pgTable(
   (table) => [t.index("pm_product_id_fk_index").on(table.product_id)]
 );
 
+/**
+ * Table for storing product categories.
+ * 
+ * Supports hierarchical structures via `parent_cat_id`.
+ * Stores display information like icons and images for category navigation.
+ * Includes soft-delete support and standard timestamps.
+ */
 export const productCategoriesTable = pgTable(
   "product_categories",
   {
@@ -97,6 +118,13 @@ export const productCategoriesTable = pgTable(
   (table) => [t.index("pc_product_id_fk_index").on(table.product_id)]
 );
 
+/**
+ * Table for storing product attributes.
+ * 
+ * Defines specific characteristics like color, size, or material.
+ * Uses `type` to determine how the attribute should be rendered (e.g., BUTTON, COLOR).
+ * Includes soft-delete support and standard timestamps.
+ */
 export const productAttributesTable = pgTable(
   "product_attributes",
   {
@@ -112,6 +140,13 @@ export const productAttributesTable = pgTable(
   (table) => [t.index("pa_product_id_fk_index").on(table.product_id)]
 );
 
+/**
+ * Table for storing specific product variations.
+ * 
+ * Manages different versions of a product (e.g., different sizes or colors).
+ * Stores pricing, stock-keeping units (SKU), physical dimensions, and identifiers (GTIN/EAN).
+ * Includes soft-delete support and standard timestamps.
+ */
 export const productVariationsTable = pgTable(
   "product_variations",
   {
@@ -140,6 +175,12 @@ export const productVariationsTable = pgTable(
   (table) => [t.index("pv_product_id_fk_index").on(table.product_id)]
 );
 
+/**
+ * Table for tracking product inventory levels.
+ * 
+ * Maintains the current stock count and availability status (e.g., IN_STOCK, OUT_OF_STOCK).
+ * Linked directly to the main product entry.
+ */
 export const inventoryTable = pgTable(
   "inventory",
   {
@@ -159,6 +200,9 @@ export const inventoryTable = pgTable(
 
 // -- Many to many
 
+/**
+ * Junction table linking products to their respective categories.
+ */
 export const productCategoriesToProductsTable = pgTable(
   "product_cat_to_products",
   {
@@ -174,6 +218,9 @@ export const productCategoriesToProductsTable = pgTable(
   (table) => [primaryKey({ columns: [table.product_id, table.product_cat_id] })]
 );
 
+/**
+ * Junction table linking products to their available attributes.
+ */
 export const productAttributesToProductsTable = pgTable(
   "product_attr_to_products",
   {
@@ -191,6 +238,9 @@ export const productAttributesToProductsTable = pgTable(
   ]
 );
 
+/**
+ * Junction table linking products to their associated media assets.
+ */
 export const productMediasToProductsTable = pgTable(
   "product_media_to_products",
   {
@@ -209,6 +259,11 @@ export const productMediasToProductsTable = pgTable(
 );
 
 // -- Relations
+/**
+ * Defines the relationships for the `productsTable`.
+ * Connects a product to its categories, attributes, media, variations,
+ * inventory, orders, and its creator.
+ */
 export const productsTableRelations = relations(
   productsTable,
   ({ many, one }) => ({
@@ -225,6 +280,10 @@ export const productsTableRelations = relations(
   })
 );
 
+/**
+ * Defines the relationships for the `productCategoriesToProductsTable`.
+ * Links the junction table entries back to their respective product and category.
+ */
 export const productCategoriesToProductsTableRelations = relations(
   productCategoriesToProductsTable,
   ({ one }) => ({
@@ -239,6 +298,10 @@ export const productCategoriesToProductsTableRelations = relations(
   })
 );
 
+/**
+ * Defines the relationships for the `productAttributesToProductsTable`.
+ * Links the junction table entries back to their respective product and attribute.
+ */
 export const productAttributesToProductsTableRelations = relations(
   productAttributesToProductsTable,
   ({ one }) => ({
@@ -253,6 +316,10 @@ export const productAttributesToProductsTableRelations = relations(
   })
 );
 
+/**
+ * Defines the relationships for the `productMediasToProductsTable`.
+ * Links the junction table entries back to their respective product and media asset.
+ */
 export const productMediasToProductsTableRelations = relations(
   productMediasToProductsTable,
   ({ one }) => ({
@@ -267,6 +334,10 @@ export const productMediasToProductsTableRelations = relations(
   })
 );
 
+/**
+ * Defines the relationships for the `productVariationsTable`.
+ * Links a variation back to its parent product.
+ */
 export const productVariationsTableRelations = relations(
   productVariationsTable,
   ({ one }) => ({
@@ -277,6 +348,10 @@ export const productVariationsTableRelations = relations(
   })
 );
 
+/**
+ * Defines the relationships for the `inventoryTable`.
+ * Links an inventory record back to its associated product.
+ */
 export const inventoryTableRelations = relations(inventoryTable, ({ one }) => ({
   product: one(productsTable, {
     fields: [inventoryTable.product_id],
