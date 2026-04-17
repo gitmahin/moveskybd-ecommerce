@@ -11,7 +11,7 @@ import {
   CreateUserWithEmailPassZodSchema,
 } from "@/zod";
 import bcrypt from "bcryptjs";
-import { eq, sql } from "drizzle-orm";
+import { eq, or, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
 
@@ -50,15 +50,15 @@ const CreateNewUser = asyncHandler(async (request: NextRequest) => {
       email: usersTable.email,
     })
     .from(usersTable)
-    .where(eq(usersTable.email, sql.placeholder("email")))
+    .where(or(eq(usersTable.email, sql.placeholder("email")), eq(usersTable.username, sql.placeholder("username"))))
     .prepare("pFindExistedUser");
 
   // -- Execute PSQL prepared statement
-  const existUserResult = await existUser.execute({ email: safePayload.email });
+  const existUserResult = await existUser.execute({ email: safePayload.email, username: safePayload.username });
 
   // -- ⛔ If user already exist with given data
   if (existUserResult[0]) {
-    throw new ApiError(400, "User already exists");
+    throw new ApiError(400, "User already exists!");
   }
 
   // -- Insert data to database and return id
@@ -94,5 +94,5 @@ const CreateNewUser = asyncHandler(async (request: NextRequest) => {
   // code here ---
 
   // -- ✅ Return success response
-  return ApiResponse("Account created", 201);
+  return ApiResponse("Account created.", 201, {id: createdUser.id});
 });

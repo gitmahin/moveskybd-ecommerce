@@ -32,7 +32,7 @@ const LoginUser = asyncHandler(async (request: NextRequest) => {
   const { searchParams } = request.nextUrl;
 
   const payload: LoginUserManualMethodPayloadType = getObjectFromSearchParams(
-    ["email", "username", "password"],
+    ["identifier", "password"],
     searchParams
   );
 
@@ -54,7 +54,7 @@ const LoginUser = asyncHandler(async (request: NextRequest) => {
    * Extract safe value from zod
    * p<something> -> here 'p' means payload
    */
-  const { email: p_email, password: p_password, username: p_username } = data;
+  const { identifier: p_identifier, password: p_password } = data;
 
   // -- Get user from database
   const selectUser = await pgDb
@@ -71,17 +71,17 @@ const LoginUser = asyncHandler(async (request: NextRequest) => {
       and(
         or(
           eq(usersTable.email, sql.placeholder("email")),
-          eq(usersTable.account_provider, "MANUAL")
+          eq(usersTable.username, sql.placeholder("username"))
         ),
-        eq(usersTable.username, sql.placeholder("username"))
+        eq(usersTable.account_provider, "MANUAL")
       )
     )
     .prepare("selectUserForLogin");
 
   // -- Execute PSQL prepared statement
   const result = await selectUser.execute({
-    email: p_email,
-    username: p_username,
+    email: p_identifier,
+    username: p_identifier,
   });
 
   // -- ⛔ Handle not found user

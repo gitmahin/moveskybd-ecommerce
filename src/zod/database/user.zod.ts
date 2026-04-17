@@ -46,18 +46,15 @@ export type GetUserProfileViaUsernamePayloadType = z.infer<
 
 // -- Api Payload: Login User - Manual Method
 export const LoginUserManualMethodZodSchema = z.object({
-  email: z
-    .email()
-    .max(255, { error: "Email must be at most 255 characters" })
-    .nonempty({ error: "email is required" }),
+  identifier: z
+    .string()
+    .max(255, { error: "Text length exceeded" }).nonempty({ error: "Email or Username is required" }),
   password: z
     .string()
     .max(50, { error: "Password must be at most 50 characters" })
     .nonempty({ error: "password is required" }),
-  username: z
-    .string()
-    .max(50, { error: "Username must be at most 50 characters" })
-    .nonempty({ error: "username is required" }),
+
+
 });
 export type LoginUserManualMethodPayloadType = z.infer<
   typeof LoginUserManualMethodZodSchema

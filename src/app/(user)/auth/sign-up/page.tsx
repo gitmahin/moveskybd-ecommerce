@@ -7,9 +7,9 @@ export default function SignupPage() {
   const handleCreateNewUser = async () => {
     console.log("creating account");
     await axios.post("http://localhost:3001/api/v1/user/create", {
-      email: "nimahin25@gmail.com",
-      password: "Mahin15006",
-      username: "gitmahin",
+   email: "jhonDoe@gmail.com",
+            password: "JhonDoe15506",
+            username: "jhondoe",
     });
   };
   return (

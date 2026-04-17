@@ -4,7 +4,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const reset_sql_file_path = path.join(__dirname, "reset.db.sql");
+const reset_sql_file_path = path.join(__dirname, "hard-reset.db.sql");
 
 let admin = false;
 
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
   process.exit(1);
 }
 
-async function reset() {
+export async function reset() {
   console.log("⏳ Resetting database...");
   const start = Date.now();
 
