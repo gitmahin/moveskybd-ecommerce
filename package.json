@@ -14,7 +14,7 @@
     "db:seed": "tsx ./src/database/tables/seed.ts",
     "db:reset": "tsx ./src/database/reset.db.ts",
     "test": "jest --config=./jest.config.mjs",
-    "test:api": "jest --config=./src/tests/api-tests/jest.config.ts"
+    "test:api": "jest --config=./src/tests/api-tests/jest.config.mjs"
   },
   "jest": {
     "projects": [
