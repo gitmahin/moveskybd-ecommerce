@@ -92,10 +92,10 @@ const LoginUser = asyncHandler(async (request: NextRequest) => {
     }
 
     // Extract values from database result
-    const { password: dbPassword, avatar, email, id, username } = result[0];
+    const { password: dbPassword, avatar, email, id, username } = result[0]; 
 
     // -- Check if password is matching with given payload
-    const isPasswordMatched = await bcrypt.compare(pPassword, dbPassword);
+    const isPasswordMatched = await bcrypt.compare(pPassword, dbPassword); 
 
     // ⛔
     if (!isPasswordMatched) {
