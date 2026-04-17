@@ -1,9 +1,8 @@
 import { testApiHandler } from "next-test-api-route-handler";
-import * as appHandler from "@/app/api/v1/user/index";
+import * as LoginAPI from "@/app/api/v1/user/login/route";
 import { NextRequest } from "next/server";
 import { setSearchParams } from "../helper";
 import { describe, it, expect } from "vitest";
-import { logger } from "@/lib";
 import { ApiResponse } from "@/utils";
 
 // -- Test user management
@@ -12,7 +11,11 @@ describe("Test User API", () => {
   // Testing user account create via email-password
   // ==================================================
   // -- Case: Successful account creation
-  it("should return user_id and store cookies with 201 status");
+//   it("should return user_id and store cookies with 201 status", async () => {
+//     await testApiHandler({
+        
+//     })
+//   });
 
   // ==================================================
   // Test user login
@@ -20,7 +23,7 @@ describe("Test User API", () => {
   // -- Case: Successful login
   it("should return accessToken & refreshToken through cookies with 200 status", async () => {
     await testApiHandler({
-      appHandler,
+      appHandler: LoginAPI,
       requestPatcher: (req: NextRequest) => {
         const queryParams = {
           email: "nimulmahin@gmail.com",
