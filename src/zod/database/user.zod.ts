@@ -1,3 +1,4 @@
+// MSG_WARNING: convert to OOP pattern for flexibility
 import { USER_ACCOUNT_PROVIDER_VALUES } from "@/database/tables/constants";
 import { z } from "zod/v4";
 
