@@ -2,6 +2,7 @@ import { testApiHandler } from 'next-test-api-route-handler';
 import * as appHandler from "@/app/api/v1/user/index"
 import { NextRequest } from 'next/server';
 import { setSearchParams } from '../helper';
+import {describe, it, expect} from "vitest"
 
 describe("Test User API", () => {
     it("should return accessToken & refreshToken through cookies with 200 status", async () => {
