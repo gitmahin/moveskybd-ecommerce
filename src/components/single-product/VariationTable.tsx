@@ -15,7 +15,7 @@ import {
 import { Quantity } from "./Quantity";
 import Image from "next/image";
 import { productStore } from "@/stores";
-import { getPriceDiscountValue } from "@/utils";
+import { getPriceDiscountValue } from "@/utils/getPriceDiscountValue";
 import { observer } from "mobx-react";
 
 type VariationDataType = {

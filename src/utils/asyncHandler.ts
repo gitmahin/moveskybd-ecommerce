@@ -1,9 +1,10 @@
 import { logger } from "@/lib";
 import { NextRequest, NextResponse } from "next/server";
-import { ApiError } from "./ApiError";
+import {ApiError} from "@/utils/ApiError"
+import {ApiResponse} from "@/utils/ApiResponse"
 import { DrizzleQueryError } from "drizzle-orm";
 import { CustomApiResponse } from "@/types/api";
-import { ApiResponse } from "./ApiResponse";
+
 
 type RouteHandler<T = null> = (
   request: NextRequest

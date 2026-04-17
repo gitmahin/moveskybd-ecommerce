@@ -1,4 +1,4 @@
-import { getPriceDiscountValue } from "@/utils";
+import { getPriceDiscountValue } from "@/utils/getPriceDiscountValue";
 import React from "react";
 
 type ProductPricePropsType = {

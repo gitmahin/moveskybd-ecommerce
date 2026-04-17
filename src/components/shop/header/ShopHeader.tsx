@@ -18,7 +18,7 @@ import { PriceMinMaxButton } from "./PriceMinMaxButton";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
-import { rmvHypenNSentenceCase } from "@/utils";
+import { rmvHypenNSentenceCase } from "@/utils/rmvHypenNSentenceCase";
 import { ChevronLeft, Router } from "lucide-react";
 
 export const ShopHeader = observer(() => {

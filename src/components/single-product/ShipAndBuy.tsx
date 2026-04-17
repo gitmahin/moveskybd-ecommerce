@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Button, Label, Separator } from "../ui";
 import { observer } from "mobx-react";
 import { productStore } from "@/stores";
-import { getPriceDiscountValue } from "@/utils";
+import { getPriceDiscountValue } from "@/utils/getPriceDiscountValue";
 
 // -- It will be set from backend
 const discountOnPurchase: Record<number, number> = {

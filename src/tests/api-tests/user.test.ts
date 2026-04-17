@@ -3,7 +3,7 @@ import * as LoginAPI from "@/app/api/v1/user/login/route";
 import { NextRequest } from "next/server";
 import { setSearchParams } from "../helper";
 import { describe, it, expect } from "vitest";
-import { ApiResponse } from "@/utils";
+import { ApiResponse } from "@/utils/ApiResponse";
 
 // -- Test user management
 describe("Test User API", () => {

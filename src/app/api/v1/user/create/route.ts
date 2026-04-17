@@ -2,7 +2,10 @@ import { usersTable } from "@/database";
 import { handleApiRequest, logger, pgDb } from "@/lib";
 import { userService } from "@/services";
 import { JWTEncryptedUserAuthData } from "@/types/user";
-import { ApiError, ApiResponse, asyncHandler, validateWithZod } from "@/utils";
+import {ApiError} from "@/utils/ApiError"
+import {ApiResponse} from "@/utils/ApiResponse"
+import {asyncHandler} from "@/utils/asyncHandler"
+import {validateWithZod} from "@/utils/validateWithZod"
 import {
   CreateUserWithEmailPassPayloadType,
   CreateUserWithEmailPassZodSchema,
