@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { logger } from "./winston.logger";
+import { CustomApiResponse } from "@/types/api";
 
 export type MiddlewareResponse = {
   pass: boolean;
@@ -7,10 +8,15 @@ export type MiddlewareResponse = {
   data?: any;
 };
 
+export type RouteCallback<T = null> = (
+  request: NextRequest,
+  payload: T
+) => Promise<CustomApiResponse | NextResponse>;
+
 export async function handleApiRequest<T>(
   request: NextRequest,
   payload: T,
-  callback: (request: NextRequest, payload: T) => Promise<any> | any,
+  callback: RouteCallback<T>,
   middlwares: ((
     request: NextRequest,
     payload: T

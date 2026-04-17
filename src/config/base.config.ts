@@ -1,7 +1,7 @@
 type BaseConfigType = {
   PORT: number;
   HOST: string;
-  APP_URL: string
+  APP_URL: string;
   NODE_ENV: string;
 };
 

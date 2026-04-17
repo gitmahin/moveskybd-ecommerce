@@ -1,10 +1,11 @@
 import { usersTable } from "@/database";
 import { handleApiRequest, logger, pgDb } from "@/lib";
 import { userService } from "@/services";
-import { ApiError, asyncHandler, validateWithZod } from "@/utils";
+import { JWTEncryptedUserAuthData } from "@/types/user";
+import { ApiError, ApiResponse, asyncHandler, validateWithZod } from "@/utils";
 import {
-    CreateUserWithEmailPassPayloadType,
-    CreateUserWithEmailPassZodSchema,
+  CreateUserWithEmailPassPayloadType,
+  CreateUserWithEmailPassZodSchema,
 } from "@/zod";
 import bcrypt from "bcryptjs";
 import { eq, sql } from "drizzle-orm";
@@ -12,7 +13,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
 
 export async function POST(request: NextRequest) {
-    return handleApiRequest(request, null, CreateNewUser);
+  return handleApiRequest(request, null, CreateNewUser);
 }
 
 // ===============================================================
@@ -20,68 +21,75 @@ export async function POST(request: NextRequest) {
 // ===============================================================
 
 const CreateNewUser = asyncHandler(async (request: NextRequest) => {
+  const bodyData: CreateUserWithEmailPassPayloadType = await request.json();
+  logger.verbose(bodyData);
 
-    const bodyData: CreateUserWithEmailPassPayloadType = await request.json();
-    logger.verbose(bodyData)
+  // -- Validate payload
+  const { data: safePayload, error } = validateWithZod(
+    bodyData,
+    CreateUserWithEmailPassZodSchema
+  );
 
-    // -- Validate payload
-    const { data, error } = validateWithZod(
-        bodyData,
-        CreateUserWithEmailPassZodSchema
-    );
+  // -- ⛔ Return response error
+  if (error) {
+    throw new ApiError(400, "Error validating your request!", [
+      z.flattenError(error),
+    ]);
+  }
 
-    // -- ⛔ Return response error
-    if (error) {
-        throw new ApiError(400, "Error validating your request!", [z.flattenError(error)])
+  // -- Hash password
+  const salt = await bcrypt.genSalt(10);
+  const hash_password = await bcrypt.hash(safePayload.password, salt);
 
-    }
+  // -- Check if user exist
+  const existUser = await pgDb
+    .select({
+      email: usersTable.email,
+    })
+    .from(usersTable)
+    .where(eq(usersTable.email, sql.placeholder("email")))
+    .prepare("pFindExistedUser");
 
-    // -- Extract valid data from zod
-    const { email, password, username } = data;
+  // -- Execute PSQL prepared statement
+  const existUserResult = await existUser.execute({ email: safePayload.email });
 
-    // -- Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hash_password = await bcrypt.hash(password, salt);
+  // -- ⛔ If user already exist with given data
+  if (existUserResult[0]) {
+    throw new ApiError(400, "User already exists");
+  }
 
-    // -- Check if user exist
-    const existUser = await pgDb
-        .select({
-            email: usersTable.email,
-        })
-        .from(usersTable)
-        .where(eq(usersTable.email, sql.placeholder("email")))
-        .prepare("pFindExistedUser");
+  // -- Insert data to database and return id
+  const userId = await pgDb
+    .insert(usersTable)
+    .values({
+      email: safePayload.email,
+      password: hash_password,
+      username: safePayload.username,
+    })
+    .returning({
+      id: usersTable.id,
+      email: usersTable.email,
+      username: usersTable.username,
+    });
 
-    // -- Execute PSQL prepared statement
-    const existUserResult = await existUser.execute({ email });
+  // -- ⛔ If has no id returned by database
+  if (!userId[0].id) {
+    throw new ApiError(400, "User id not returned");
+  }
 
-    // -- ⛔ If user already exist with given data
-    if (existUserResult[0]) {
-        throw new ApiError(400, "User already exists")
+  const createdUser = userId[0];
 
-    }
+  const jwtPayload: JWTEncryptedUserAuthData = {
+    email: createdUser.email,
+    id: createdUser.id,
+    username: createdUser.username,
+  };
 
-    // -- Insert data to database and return id
-    const userId = await pgDb
-        .insert(usersTable)
-        .values({
-            email,
-            account_provider: "MANUAL",
-            password: hash_password,
-            username,
-        })
-        .returning({ id: usersTable.id });
+  userService.createJWTAuthCookies(jwtPayload, { id: createdUser.id });
 
-    // -- ⛔ If has no id returned by database
-    if (!userId[0].id) {
-        throw new ApiError(400, "User id not returned")
-    }
+  // -- send email
+  // code here ---
 
-    // -- Send email here
-    // code here --------
-
-  
-    // -- ✅ Return success response
-    return NextResponse.json({ message: "OK" }, { status: 200 });
-
-})
+  // -- ✅ Return success response
+  return ApiResponse("Account created", 201);
+});

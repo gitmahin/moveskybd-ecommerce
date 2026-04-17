@@ -9,6 +9,7 @@ import { serviceResponse } from "./utils";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { CookieService } from "./cookie.service";
+import { JWTEncryptedUserAuthData } from "@/types/user";
 
 class UserService {
   /**
@@ -86,8 +87,8 @@ class UserService {
   }
 
   async createJWTAuthCookies(
-    payloadForAccessToken: any,
-    payloadForRefreshToken: any
+    payloadForAccessToken: JWTEncryptedUserAuthData,
+    payloadForRefreshToken: { id: JWTEncryptedUserAuthData["id"] }
   ) {
     const cookieStore = await cookies();
     // -- Set cookies
