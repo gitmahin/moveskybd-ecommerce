@@ -8,7 +8,7 @@ import {asyncHandler} from "@/utils/asyncHandler"
 import {validateWithZod} from "@/utils/validateWithZod"
 import {
   CreateUserWithEmailPassPayloadType,
-  CreateUserWithEmailPassZodSchema,
+  userValidationZodSchema,
 } from "@/zod";
 import bcrypt from "bcryptjs";
 import { eq, or, sql } from "drizzle-orm";
@@ -30,7 +30,7 @@ const CreateNewUser = asyncHandler(async (request: NextRequest) => {
   // -- Validate payload
   const { data: safePayload, error } = validateWithZod(
     bodyData,
-    CreateUserWithEmailPassZodSchema
+    userValidationZodSchema.CreateUserWithEmailPass()
   );
 
   // -- ⛔ Return response error

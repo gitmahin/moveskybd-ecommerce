@@ -13,8 +13,8 @@ import {validateWithZod} from "@/utils/validateWithZod"
 
 import {
   LoginUserManualMethodPayloadType,
-  LoginUserManualMethodZodSchema,
-} from "@/zod/database";
+  userValidationZodSchema
+} from "@/zod";
 import { z } from "zod/v4";
 import { getObjectFromSearchParams } from "@/utils/getObjectFromSearchParams";
 import { JWTEncryptedUserAuthData } from "@/types/user";
@@ -40,7 +40,7 @@ const LoginUser = asyncHandler(async (request: NextRequest) => {
   // -- Validate payload with zod
   const { data, error } = validateWithZod(
     payload,
-    LoginUserManualMethodZodSchema
+    userValidationZodSchema.LoginUserManualMethod()
   );
 
   // -- ⛔ Return zod flattened error response
