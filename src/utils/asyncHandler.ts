@@ -5,7 +5,6 @@ import {ApiResponse} from "@/utils/ApiResponse"
 import { DrizzleQueryError } from "drizzle-orm";
 import { CustomApiResponse } from "@/types/api";
 
-
 type RouteHandler<T = null> = (
   request: NextRequest
 ) => Promise<CustomApiResponse<T>>;

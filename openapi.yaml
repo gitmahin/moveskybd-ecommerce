@@ -36,6 +36,18 @@ paths:
     post:
       summary: Create User 
       deprecated: false
+  /v1/user/create/profile:
+    post:
+      summary: Create user's profile 
+      deprecated: false
+  /v1/user/create/contact-info:
+    post:
+      summary: Create user's contact 
+      deprecated: false
+  /v1/user/create/address-info:
+    post:
+      summary: Create user's address 
+      deprecated: false
   # -- Authenticate user 
   /v1/user/login:
     get:  

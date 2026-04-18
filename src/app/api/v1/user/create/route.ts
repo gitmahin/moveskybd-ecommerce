@@ -68,6 +68,7 @@ const CreateNewUser = asyncHandler(async (request: NextRequest) => {
       email: safePayload.email,
       password: hash_password,
       username: safePayload.username,
+      is_verified: false,
     })
     .returning({
       id: usersTable.id,
