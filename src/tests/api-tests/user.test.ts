@@ -123,7 +123,7 @@ describe("Test User API", () => {
         expect(response.status).toBe(400);
         const data = await response.json()
         expect(data.message).toEqual("Error validating your request!");
-        console.log(data.errors[0].fieldErrors)
+  
         expect(data.errors[0].fieldErrors).toEqual(
           expect.objectContaining({
             identifier: expect.any(Array),
