@@ -1,4 +1,4 @@
-import { GetUserProfileViaUsernamePayloadType } from "@/zod/database";
+import { GetUserProfileViaUsernamePayloadType } from "@/zod";
 
 import { logger, pgDb } from "@/lib";
 import { ServiceResponseType } from "./type";
@@ -104,18 +104,22 @@ class UserService {
     payloadForRefreshToken: { id: JWTEncryptedUserAuthData["id"] }
   ) {
     const cookieStore = await cookies();
-    // -- Set cookies
+    // ============================================
+    // Create JWT tokens
+    // ============================================
     const accessToken = jwt.sign(
       payloadForAccessToken,
       String(process.env.JWT_AUTH_SECRET),
       { expiresIn: "5m" }
     );
-    // Store only id in refreshToken
+    // -- Store only id in refreshToken
     const refreshToken = jwt.sign(
       payloadForRefreshToken,
       String(process.env.JWT_AUTH_SECRET),
       { expiresIn: "30d" }
     );
+
+    // -- Set cookies
     cookieStore.set(
       CookieService.ACCESS_TOKEN.name,
       accessToken,
