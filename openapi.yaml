@@ -181,15 +181,15 @@ paths:
       summary: Setup or update payment provider configuration by its ID
       deprecated: false
   # ====================== File Uploading ==========================
-  /v1/upload/file:
+  /v1/upload/image:
     post:
       summary: Upload a file (image | video)
       deprecated: false
-  /v1/file/images/get:
+  /v1/images/get:
     get:
       summary: Get all images
       deprecated: false
-  /v1/file/videos/get:
+  /v1/videos/get:
     get:
       summary: Get all videos
       deprecated: false
