@@ -25,7 +25,7 @@ servers:
           - "3002"
         default: "3001"
 paths:
-  # == User Management 
+  # =================== User Management ===========================
   # -- Geting user & its related things
   /v1/user/get/{username}:
     get:
@@ -86,7 +86,7 @@ paths:
     patch: 
       description: Get otp and verify method and verify user by his/her method. 
       deprecated: false
-  # == Product Management
+  # ===================== Product Management ===========================
   # -- Getting products & its related things
   /v1/product/get:
     get:
@@ -107,9 +107,6 @@ paths:
   /v1/product/create:
     post:
       summary: Create new product
-      deprecated: false
-  /v1/product/image/upload:
-    post:
       deprecated: false
   /v1/product/category/create:
     post:
@@ -132,7 +129,7 @@ paths:
     patch:
       summary: Update a specific inventory by its ID 
       deprecated: false
-  # == Order Management
+  # ================= Order Management ========================
   # -- Getting orders
   /v1/order/get:
     get:
@@ -183,7 +180,19 @@ paths:
     patch:
       summary: Setup or update payment provider configuration by its ID
       deprecated: false
-
+  # ====================== File Uploading ==========================
+  /v1/upload/file:
+    post:
+      summary: Upload a file (image | video)
+      deprecated: false
+  /v1/file/images/get:
+    get:
+      summary: Get all images
+      deprecated: false
+  /v1/file/videos/get:
+    get:
+      summary: Get all videos
+      deprecated: false
     
 
   
